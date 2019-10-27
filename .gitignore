@@ -1,5 +1,8 @@
 # Byte-compiled / optimized / DLL files
+client_secret.json
 __pycache__/
+user_data/
+venv/
 *.py[cod]
 *$py.class
 
