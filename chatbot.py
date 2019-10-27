@@ -91,12 +91,12 @@ class Chatbot(object):
 
             time.sleep(1)
 
-            windows_nonton = self.driver.execute_script("window.open('https://jadwalnonton.com/bioskop/di-"+ self.namkot + "/" + self.namlok + "-" + self.nambios + "-" + self.namkot + ".html', 'new window')")
+            self.driver.execute_script("window.open('https://jadwalnonton.com/bioskop/di-"+ self.namkot + "/" + self.namlok + "-" + self.nambios + "-" + self.namkot + ".html', 'new window')")
 
-            self.driver.switch_to(windows_nonton)
+            time.sleep(1)
 
-            self.driver.close()
-
+            #closing line 94 tab
+            self.driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + 'w')
         except:
             print("ga ada pesan ...")
 
