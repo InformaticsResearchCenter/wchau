@@ -11,7 +11,7 @@ import time
 class Chatbot(object):
     def __init__(self, filename):
         self.filename = filename
-        self.openDb()
+        #self.openDb()
 
     def openDb(self):
         scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
@@ -42,8 +42,9 @@ class Chatbot(object):
         li = list(string.split(" "))
         return li
 
+    #wait login to wait until user scan barcode
     def waitLogin(self):
-        self.target = '"_3RWII"'
+        self.target = '"_3RWII"' 
         self.x_arg = '//div[contains(@class, ' + self.target + ')]'
         self.wait = WebDriverWait(self.driver, 600)
         self.wait.until(EC.presence_of_element_located((By.XPATH, self.x_arg)))
