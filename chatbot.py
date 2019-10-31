@@ -110,6 +110,8 @@ class Chatbot(object):
 
             self.waitLogin()
 
+            #komen1
+
         except Exception as e:
             print(e)
             print("ga ada pesan ...")
