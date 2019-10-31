@@ -5,3 +5,7 @@ bot = chatbot.Chatbot("data")
 bot.openBrowser()
 
 bot.cekAndSendMessage()
+
+bot.searchAndClick()
+
+#komen123
