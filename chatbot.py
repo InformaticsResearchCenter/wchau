@@ -3,7 +3,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from oauth2client.service_account import ServiceAccountCredentials
-from selenium.webdriver.common.keys import Keys
 import gspread
 import time
 
@@ -55,6 +54,18 @@ class Chatbot(object):
         self.sendbutton = self.driver.find_elements_by_xpath('//*[@id="main"]/footer/div[1]/div[3]/button')[0]
         self.sendbutton.click()
 
+    def searchAndClick(self):
+        search = self.driver.find_element_by_tag_name("input")
+        sirchsearch = search.get_attribute("title")
+        if sirchsearch == "Search or start new chat":
+            search.click()
+            search.send_keys("sakeudap")
+
+        time.sleep(5)
+
+        target = self.driver.find_elements_by_class_name("_19RFN _1ovWX")[-1]
+        target.click()
+
     def cekAndSendMessage(self):
         try:
             hello = ["maman"]
@@ -91,13 +102,16 @@ class Chatbot(object):
 
             time.sleep(1)
 
-            self.driver.execute_script("window.open('https://jadwalnonton.com/bioskop/di-"+ self.namkot + "/" + self.namlok + "-" + self.nambios + "-" + self.namkot + ".html', 'new window')")
+            self.driver.get("https://jadwalnonton.com/bioskop/di-"+ self.namkot + "/" + self.namlok + "-" + self.nambios + "-" + self.namkot + ".html")
 
             time.sleep(1)
 
-            #closing line 94 tab
-            self.driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + 'w')
-        except:
+            self.driver.get("https://web.whatsapp.com/")
+
+            self.waitLogin()
+
+        except Exception as e:
+            print(e)
             print("ga ada pesan ...")
 
     def openBrowser(self):
