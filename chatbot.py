@@ -48,10 +48,10 @@ class Chatbot(object):
         self.wait = WebDriverWait(self.driver, 600)
         self.wait.until(EC.presence_of_element_located((By.XPATH, self.x_arg)))
 
+    #this function to type massage and sending.
     def typeAndSendMessage(self, message):
         self.message_target = self.driver.find_elements_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')[0]
         self.message_target.send_keys(message)
-
         self.sendbutton = self.driver.find_elements_by_xpath('//*[@id="main"]/footer/div[1]/div[3]/button')[0]
         self.sendbutton.click()
 
