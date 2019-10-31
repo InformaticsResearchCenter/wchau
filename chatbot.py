@@ -75,7 +75,8 @@ class Chatbot(object):
             namaKota = ["jakarta", "bandung"]
             namaLokasi = ["braga", "btc"]
             namaBioskop = ["xxi"]
-
+            
+            #to check the new massage
             self.chat = self.driver.find_elements_by_class_name("P6z4j")[0]
             self.chat.click()
             self.chat.click()
