@@ -110,7 +110,7 @@ class Chatbot(object):
 
             self.waitLogin()
 
-            #komen1
+            #komen1212
 
         except Exception as e:
             print(e)
