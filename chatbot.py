@@ -66,7 +66,8 @@ class Chatbot(object):
 
         target = self.driver.find_elements_by_class_name("_19RFN _1ovWX")[-1]
         target.click()
-
+    
+    #check massage and then send massage
     def cekAndSendMessage(self):
         try:
             hello = ["maman"]
