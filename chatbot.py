@@ -102,15 +102,31 @@ class Chatbot(object):
 
             time.sleep(1)
 
-            self.driver.get("https://jadwalnonton.com/bioskop/di-"+ self.namkot + "/" + self.namlok + "-" + self.nambios + "-" + self.namkot + ".html")
+            self.driver.execute_script("window.open('https://jadwalnonton.com/bioskop/di-"+ self.namkot + '/' + self.namlok + '-' + self.nambios + '-' + self.namkot + ".html');")
 
-            time.sleep(1)
+            self.driver.switch_to_window(self.driver.window_handles[1])
+            try:
+                error = self.driver.find_element_by_xpath("//div[contains(@class, 'caution')]").text
+                if "404" in error:
+                    self.driver.close()
+                    time.sleep(1)
+                    self.driver.switch_to_window(self.driver.window_handles[0])
+                    time.sleep(1)
+                    self.typeAndSendMessage("data tidak ditemukan euy")
+            except:
+                jumlah = self.driver.find_elements_by_xpath("//div[contains(@class, 'col-sm-10 sched_desc')]")
+                jadwal = ""
+                for i in jumlah:
+                    jadwal = i.text + jadwal
+                self.driver.close()
+                time.sleep(1)
+                self.driver.switch_to_window(self.driver.window_handles[0])
+                time.sleep(1)
+                jadwalFix = jadwal.replace("LIHAT DI BIOSKOP LAIN", "")
+                time.sleep(1)
+                self.typeAndSendMessage(jadwalFix)
 
-            self.driver.get("https://web.whatsapp.com/")
 
-            self.waitLogin()
-
-            #komen1212
 
         except Exception as e:
             print(e)
