@@ -1,4 +1,5 @@
 # Byte-compiled / optimized / DLL files
+.idea/
 client_secret.json
 __pycache__/
 user_data/
