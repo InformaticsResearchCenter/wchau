@@ -10,7 +10,7 @@ import time
 class Chatbot(object):
     def __init__(self, filename):
         self.filename = filename
-        self.openDb()
+        #self.openDb()
 
     def openDb(self):
         scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
@@ -41,16 +41,17 @@ class Chatbot(object):
         li = list(string.split(" "))
         return li
 
+    #wait login to wait until user scan barcode
     def waitLogin(self):
-        self.target = '"_3RWII"'
+        self.target = '"_3RWII"' 
         self.x_arg = '//div[contains(@class, ' + self.target + ')]'
         self.wait = WebDriverWait(self.driver, 600)
         self.wait.until(EC.presence_of_element_located((By.XPATH, self.x_arg)))
 
+    #this function to type massage and sending.
     def typeAndSendMessage(self, message):
         self.message_target = self.driver.find_elements_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')[0]
         self.message_target.send_keys(message)
-
         self.sendbutton = self.driver.find_elements_by_xpath('//*[@id="main"]/footer/div[1]/div[3]/button')[0]
         self.sendbutton.click()
 
@@ -65,7 +66,8 @@ class Chatbot(object):
 
         target = self.driver.find_elements_by_class_name("_19RFN _1ovWX")[-1]
         target.click()
-
+    
+    #check massage and then send massage
     def cekAndSendMessage(self):
         try:
             hello = ["maman"]
@@ -73,7 +75,8 @@ class Chatbot(object):
             namaKota = ["jakarta", "bandung"]
             namaLokasi = ["braga", "btc"]
             namaBioskop = ["xxi"]
-
+            
+            #to check the new massage
             self.chat = self.driver.find_elements_by_class_name("P6z4j")[0]
             self.chat.click()
             self.chat.click()
