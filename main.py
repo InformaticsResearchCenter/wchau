@@ -1,7 +1,8 @@
 import chatbot
 
-bot = chatbot.Chatbot("data")
+bot = chatbot.Chatbot("data_perhutani")
 
 bot.openBrowser()
 
-bot.cekAndSendMessage()
+while True:
+    bot.cekAndSendMessage()

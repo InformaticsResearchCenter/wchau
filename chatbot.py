@@ -1,17 +1,17 @@
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from oauth2client.service_account import ServiceAccountCredentials
 import gspread
-import time
+from time import sleep
 
 
 class Chatbot(object):
     def __init__(self, filename):
         self.filename = filename
         self.openDb()
-
 
     def openDb(self):
         scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
@@ -30,7 +30,7 @@ class Chatbot(object):
             except Exception as e:
                 if str(e).find("RESOURCE_EXHAUSTED"):
                     print("wait ...")
-                    time.sleep(100)
+                    sleep(100)
                     self.dataError = True
 
     def saveProfile(self):
@@ -49,8 +49,10 @@ class Chatbot(object):
         self.wait.until(EC.presence_of_element_located((By.XPATH, self.x_arg)))
 
     def waitLocation(self):
+        self.target = '"_2Wx_5 _3LG3B"'
+        self.x_arg = '//div[contains(@class, ' + self.target + ')]'
         self.wait = WebDriverWait(self.driver, 600)
-        self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "_34tCm")))
+        self.wait.until(EC.presence_of_element_located((By.XPATH, self.x_arg)))
 
     def typeAndSendMessage(self, message):
         self.message_target = self.driver.find_elements_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')[0]
@@ -65,7 +67,7 @@ class Chatbot(object):
             search.click()
             search.send_keys("sakeudap")
 
-        time.sleep(5)
+        sleep(5)
 
         target = self.driver.find_elements_by_class_name("_19RFN _1ovWX")[-1]
         target.click()
@@ -77,7 +79,7 @@ class Chatbot(object):
             self.chat.click()
             self.chat.click()
 
-            time.sleep(0.5)
+            sleep(0.5)
 
             self.span = self.driver.find_elements_by_xpath('(.//span)')[-11].text
 
@@ -89,10 +91,14 @@ class Chatbot(object):
                 self.movieSchedule(self.message)
             if "perhutani" in self.message:
                 self.perhutani()
-            # if "gmaps" in self.message:
-            #     self.gmaps()
+
+            try:
+                cariMaps = self.driver.find_elements_by_class_name("_15Rkh")[-1]
+                self.gmaps()
+            except Exception as e:
+                print(e)
+
         except Exception as e:
-            print(e)
             print("ga ada pesan ...")
 
     def movieSchedule(self, message):
@@ -115,18 +121,19 @@ class Chatbot(object):
                     if j in namaLokasi:
                         self.namlok = j
 
-        time.sleep(1)
+        sleep(1)
 
-        self.driver.execute_script("window.open('https://jadwalnonton.com/bioskop/di-" + self.namkot + '/' + self.namlok + '-' + self.nambios + '-' + self.namkot + ".html');")
+        self.driver.execute_script(
+            "window.open('https://jadwalnonton.com/bioskop/di-" + self.namkot + '/' + self.namlok + '-' + self.nambios + '-' + self.namkot + ".html');")
 
         self.driver.switch_to_window(self.driver.window_handles[1])
         try:
             error = self.driver.find_element_by_xpath("//div[contains(@class, 'caution')]").text
             if "404" in error:
                 self.driver.close()
-                time.sleep(1)
+                sleep(1)
                 self.driver.switch_to_window(self.driver.window_handles[0])
-                time.sleep(1)
+                sleep(1)
                 self.typeAndSendMessage("data tidak ditemukan euy")
         except:
             jumlah = self.driver.find_elements_by_xpath("//div[contains(@class, 'col-sm-10 sched_desc')]")
@@ -134,35 +141,32 @@ class Chatbot(object):
             for i in jumlah:
                 jadwal = i.text + jadwal
             self.driver.close()
-            time.sleep(1)
+            sleep(1)
             self.driver.switch_to_window(self.driver.window_handles[0])
-            time.sleep(1)
+            sleep(1)
             jadwalFix = jadwal.replace("LIHAT DI BIOSKOP LAIN", "")
-            time.sleep(1)
+            sleep(1)
             self.typeAndSendMessage(jadwalFix)
 
     def perhutani(self):
         usEmail = "trianggadio@gmail.com"
         usPass = "isSAME10"
 
-        self.driver.execute_script("window.open('https://www.tokoperhutani.com/beranda/searchFromRecap/4140100/4141100/4141102/010')")
-
-        time.sleep(.5)
+        self.driver.execute_script(
+            "window.open('https://www.tokoperhutani.com/beranda/searchFromRecap/4140100/4141100/4141102/010')")
+        sleep(.5)
 
         self.driver.switch_to_window(self.driver.window_handles[1])
-
-        time.sleep(2)
+        sleep(2)
 
         self.driver.find_element_by_link_text("Login").click()
-
-        time.sleep(.5)
+        sleep(.5)
 
         self.driver.find_element_by_id("email").send_keys(usEmail)
         self.driver.find_element_by_id("password").send_keys(usPass)
 
         self.driver.find_elements_by_class_name("le-button")[0].click()
-
-        time.sleep(60)
+        sleep(60)
 
         wekser = ['193150214695', '193150214696', '193150214751', '193150215151', '193150215166', '193150215173',
                   '193150215178', '193150215190', '193150215192', '193150215398', '193150215511', '193150215524',
@@ -185,22 +189,17 @@ class Chatbot(object):
         itungan = 10 - len(forCounting)
 
         while cariData:
-
             asd = self.driver.find_elements_by_xpath(
                 "//table[@id='example' and @class='display select nowrap dataTable no-footer']/tbody/tr")
 
             for i in asd:
                 itungan += 1
-
                 abc = i.text[9:22]
-
                 waduwek = abc.splitlines()
 
                 if waduwek[0] in wekser:
                     i.click()
-
                     wektow = wekser.index(waduwek[0])
-
                     wekser.pop(wektow)
 
                 if len(wekser) == 0:
@@ -211,7 +210,31 @@ class Chatbot(object):
                     itungan = 0
                     self.driver.find_element_by_id("example_previous").click()
 
-    # def gmaps(self):
+    def gmaps(self):
+        self.driver.find_elements_by_class_name("_15Rkh")[-1].click()
+        sleep(1)
+        self.driver.switch_to_window(self.driver.window_handles[1])
+        sleep(1)
+        self.destination = "Politeknik Pos Indonesia"
+        sleep(1)
+        self.abc = self.driver.find_element_by_id("searchboxinput").get_attribute("value")
+        sleep(1)
+        self.driver.find_element_by_id("sb_cb50").click()
+        sleep(1)
+        self.driver.find_element_by_id("searchboxinput").send_keys(self.destination + Keys.ENTER)
+        sleep(4)
+        self.driver.find_elements_by_class_name("iRxY3GoUYUY__taparea")[0].click()
+        sleep(1)
+        self.driver.find_elements_by_class_name("tactile-searchbox-input")[2].send_keys(self.abc + Keys.ENTER)
+        sleep(1)
+        currentUrl = self.driver.current_url
+        sleep(1)
+        self.driver.close()
+        sleep(1)
+        self.driver.switch_to_window(self.driver.window_handles[0])
+        sleep(1)
+        self.typeAndSendMessage(currentUrl)
+        sleep(1)
 
     def openBrowser(self):
         self.saveProfile()
