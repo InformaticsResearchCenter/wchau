@@ -1,2 +1,2 @@
-# wchau
+# wanda
 Whatsapp Web Chatbot Using Selenium
