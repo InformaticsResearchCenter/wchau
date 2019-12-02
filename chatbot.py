@@ -5,6 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from oauth2client.service_account import ServiceAccountCredentials
 import gspread
+import os
 from time import sleep
 
 
@@ -91,15 +92,31 @@ class Chatbot(object):
                 self.movieSchedule(self.message)
             if "perhutani" in self.message:
                 self.perhutani()
-
-            try:
-                cariMaps = self.driver.find_elements_by_class_name("_15Rkh")[-1]
-                self.gmaps()
-            except Exception as e:
-                print(e)
+            if "gmaps" in self.message:
+                des = self.message.pop(0)
+                desti2 = self.listToString(des)
+                self.gmaps(desti2)
+            if "foto" in self.message:
+                sleep(1)
+                name = self.getName()
+                sleep(1)
+                self.retrievePicture()
+                sleep(1)
+                self.renamePicture(name)
+                sleep(1)
+                self.sendPicture(self.message[1], name)
+                sleep(1)
+                self.deletePicture()
+                sleep(1)
 
         except Exception as e:
+            print(e)
             print("ga ada pesan ...")
+
+    def listToString(self, message):
+        pesan = " "
+
+        return (pesan.join(message))
 
     def movieSchedule(self, message):
         hello = ["maman"]
@@ -152,8 +169,7 @@ class Chatbot(object):
         usEmail = "trianggadio@gmail.com"
         usPass = "isSAME10"
 
-        self.driver.execute_script(
-            "window.open('https://www.tokoperhutani.com/beranda/searchFromRecap/4140100/4141100/4141102/010')")
+        self.driver.execute_script("window.open('https://www.tokoperhutani.com/beranda/searchFromRecap/4140100/4141100/4141102/010')")
         sleep(.5)
 
         self.driver.switch_to_window(self.driver.window_handles[1])
@@ -178,8 +194,7 @@ class Chatbot(object):
 
         self.driver.find_elements_by_class_name("paginate_button")[6].click()
 
-        asd = self.driver.find_elements_by_xpath(
-            "//table[@id='example' and @class='display select nowrap dataTable no-footer']/tbody/tr")
+        asd = self.driver.find_elements_by_xpath("//table[@id='example' and @class='display select nowrap dataTable no-footer']/tbody/tr")
 
         for i in asd:
             abc = i.text[9:22]
@@ -189,8 +204,7 @@ class Chatbot(object):
         itungan = 10 - len(forCounting)
 
         while cariData:
-            asd = self.driver.find_elements_by_xpath(
-                "//table[@id='example' and @class='display select nowrap dataTable no-footer']/tbody/tr")
+            asd = self.driver.find_elements_by_xpath("//table[@id='example' and @class='display select nowrap dataTable no-footer']/tbody/tr")
 
             for i in asd:
                 itungan += 1
@@ -210,31 +224,105 @@ class Chatbot(object):
                     itungan = 0
                     self.driver.find_element_by_id("example_previous").click()
 
-    def gmaps(self):
+    def gmaps(self, destination):
         self.driver.find_elements_by_class_name("_15Rkh")[-1].click()
         sleep(1)
+
         self.driver.switch_to_window(self.driver.window_handles[1])
         sleep(1)
-        self.destination = "Politeknik Pos Indonesia"
+
+        self.destination = destination
         sleep(1)
+
         self.abc = self.driver.find_element_by_id("searchboxinput").get_attribute("value")
         sleep(1)
+
         self.driver.find_element_by_id("sb_cb50").click()
         sleep(1)
+
         self.driver.find_element_by_id("searchboxinput").send_keys(self.destination + Keys.ENTER)
         sleep(4)
+
         self.driver.find_elements_by_class_name("iRxY3GoUYUY__taparea")[0].click()
         sleep(1)
+
         self.driver.find_elements_by_class_name("tactile-searchbox-input")[2].send_keys(self.abc + Keys.ENTER)
         sleep(1)
+
         currentUrl = self.driver.current_url
         sleep(1)
+
         self.driver.close()
         sleep(1)
+
         self.driver.switch_to_window(self.driver.window_handles[0])
         sleep(1)
+
         self.typeAndSendMessage(currentUrl)
         sleep(1)
+
+    def sendPicture(self, phoneNumber, filePath):
+        self.driver.get("https://web.whatsapp.com/send?phone=" + phoneNumber)
+
+        self.waitLogin()
+        sleep(3)
+
+        self.driver.find_element_by_css_selector("span[data-icon='clip']").click()
+        sleep(2)
+
+        path = r"C:\Users\trian\Downloads"
+        nameFile = filePath + ".jpeg"
+
+        result = os.path.join(path, nameFile)
+
+        self.driver.find_element_by_css_selector("input[type='file']").send_keys(result)
+        sleep(1)
+
+        self.driver.find_element_by_css_selector("span[data-icon='send-light").click()
+        sleep(1)
+
+    def retrievePicture(self):
+        self.driver.find_elements_by_class_name("_18vxA")[-1].click()
+        sleep(1)
+
+        self.driver.find_element_by_css_selector("span[data-icon='download']").click()
+        sleep(1)
+
+        self.driver.find_element_by_css_selector("span[data-icon='x-viewer']").click()
+        sleep(1)
+
+    def deletePicture(self):
+        dir_name = "/Users/trian/Downloads/"
+        list = os.listdir(dir_name)
+
+        for item in list:
+            if item.endswith(".jpeg"):
+                os.remove(os.path.join(dir_name, item))
+
+    def getName(self):
+        self.driver.find_element_by_class_name("_3fs0K").click()
+        sleep(1)
+
+        self.driver.find_element_by_class_name("_2vJOg").click()
+        sleep(1)
+
+        name = self.driver.find_elements_by_class_name("_F7Vk")[1].text
+        sleep(1)
+
+        self.driver.find_element_by_css_selector("span[data-icon='x-viewer']").click()
+        sleep(1)
+
+        return name
+
+    def renamePicture(self, fileName):
+        dir_name = "/Users/trian/Downloads/"
+        list = os.listdir(dir_name)
+
+        print(list)
+
+        for item in list:
+            if item.endswith(".jpeg"):
+                os.rename(os.path.join(dir_name, item), os.path.join(dir_name, fileName + ".jpeg"))
 
     def openBrowser(self):
         self.saveProfile()
