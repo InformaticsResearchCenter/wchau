@@ -4,6 +4,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from oauth2client.service_account import ServiceAccountCredentials
+import cv2
+import numpy as np
 import gspread
 import os
 from time import sleep
@@ -93,8 +95,8 @@ class Chatbot(object):
             if "perhutani" in self.message:
                 self.perhutani()
             if "gmaps" in self.message:
-                des = self.message.pop(0)
-                desti2 = self.listToString(des)
+                self.message.pop(0)
+                desti2 = self.listToString(self.message)
                 self.gmaps(desti2)
             if "foto" in self.message:
                 sleep(1)
@@ -108,6 +110,25 @@ class Chatbot(object):
                 sleep(1)
                 self.deletePicture()
                 sleep(1)
+            if "yolo" in self.message:
+                sleep(1)
+
+                name = self.getName()
+                sleep(1)
+
+                self.retrievePicture()
+                sleep(1)
+
+                self.renamePicture(name)
+                sleep(1)
+
+                objectnames = self.listToString(self.loadYolo(self.cocoNamesLoad(), name))
+                sleep(1)
+
+                self.deletePicture()
+                sleep(1)
+
+                self.typeAndSendMessage("Difoto terakhir yang dikirim ada object: " + objectnames)
 
         except Exception as e:
             print(e)
@@ -246,6 +267,12 @@ class Chatbot(object):
         self.driver.find_elements_by_class_name("iRxY3GoUYUY__taparea")[0].click()
         sleep(1)
 
+        self.driver.find_elements_by_class_name("tactile-searchbox-input")[2].click()
+        sleep(1)
+
+        self.driver.find_elements_by_class_name("tactile-searchbox-input")[2].send_keys(Keys.BACKSPACE)
+        sleep(1)
+
         self.driver.find_elements_by_class_name("tactile-searchbox-input")[2].send_keys(self.abc + Keys.ENTER)
         sleep(1)
 
@@ -300,17 +327,24 @@ class Chatbot(object):
                 os.remove(os.path.join(dir_name, item))
 
     def getName(self):
-        self.driver.find_element_by_class_name("_3fs0K").click()
-        sleep(1)
+        try:
+            self.driver.find_element_by_class_name("_3fs0K").click()
+            sleep(1)
 
-        self.driver.find_element_by_class_name("_2vJOg").click()
-        sleep(1)
+            self.driver.find_element_by_class_name("_2vJOg").click()
+            sleep(1)
 
-        name = self.driver.find_elements_by_class_name("_F7Vk")[1].text
-        sleep(1)
+            name = self.driver.find_elements_by_class_name("_F7Vk")[1].text
+            sleep(1)
 
-        self.driver.find_element_by_css_selector("span[data-icon='x-viewer']").click()
-        sleep(1)
+            self.driver.find_element_by_css_selector("span[data-icon='x-viewer']").click()
+            sleep(1)
+        except Exception as e:
+            print(e)
+            print("Grup")
+
+            name = self.driver.find_elements_by_class_name("_3u328")[0].text
+            sleep(1)
 
         return name
 
@@ -323,6 +357,74 @@ class Chatbot(object):
         for item in list:
             if item.endswith(".jpeg"):
                 os.rename(os.path.join(dir_name, item), os.path.join(dir_name, fileName + ".jpeg"))
+
+    def cocoNamesLoad(self):
+        listClass = []
+
+        with open("coco.names", "r") as daftarNama:
+            for i in daftarNama.readlines():
+                cocoNames = i.strip()
+                listClass.append(cocoNames)
+
+        return listClass
+
+    def loadYolo(self, coconames, fileName):
+        model = cv2.dnn.readNet("yolov3.weights", "yolov3.cfg")
+
+        layerNames = model.getLayerNames()
+
+        outputLayer = []
+
+        for i in model.getUnconnectedOutLayers():
+            outputLayer.append(layerNames[i[0] - 1])
+
+        path = r"C:\Users\trian\Downloads"
+        nameFile = fileName + ".jpeg"
+
+        result = os.path.join(path, nameFile)
+
+        img = cv2.imread(result)
+
+        width, height, channels = img.shape
+
+        blob = cv2.dnn.blobFromImage(img, 0.00392, (416, 416), (0, 0, 0), True, crop=False)
+
+        model.setInput(blob)
+        outs = model.forward(outputLayer)
+
+        boxes = []
+        class_ids = []
+        confidences = []
+        for out in outs:
+            for detection in out:
+                scores = detection[5:]
+                class_id = np.argmax(scores)
+                confidence = scores[class_id]
+
+                if confidence > 0.5:
+                    center_x = int(detection[0] * width)
+                    center_y = int(detection[1] * height)
+
+                    w = int(detection[2] * width)
+                    h = int(detection[3] * height)
+
+                    x = int(center_x - w / 2)
+                    y = int(center_y - h / 2)
+
+                    boxes.append([x, y, w, h])
+                    class_ids.append(class_id)
+                    confidences.append(float(confidence))
+
+        objectNames = []
+        for i in range(len(boxes)):
+            label = coconames[class_ids[i]]
+
+            if label in objectNames:
+                print("sudah ada")
+            else:
+                objectNames.append(label)
+
+        return objectNames
 
     def openBrowser(self):
         self.saveProfile()
