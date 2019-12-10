@@ -264,8 +264,22 @@ class Chatbot(object):
         self.driver.find_element_by_id("searchboxinput").send_keys(self.destination + Keys.ENTER)
         sleep(4)
 
-        self.driver.find_elements_by_class_name("iRxY3GoUYUY__taparea")[0].click()
-        sleep(1)
+        try:
+            self.driver.find_elements_by_class_name("iRxY3GoUYUY__taparea")[0].click()
+            sleep(1)
+        except Exception as e:
+            print(e)
+            print("ada dua objek tujuan!!")
+
+            cekButton = self.driver.find_elements_by_class_name("section-result-action-text")[0].text
+
+            if cekButton == "Website":
+                print("Situs Web")
+                self.driver.find_elements_by_class_name("section-result-action-text")[1].click()
+                sleep(2)
+            else:
+                self.driver.find_elements_by_class_name("section-result-action-text")[0].click()
+                sleep(2)
 
         self.driver.find_elements_by_class_name("tactile-searchbox-input")[2].click()
         sleep(1)
