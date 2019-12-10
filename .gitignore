@@ -6,6 +6,9 @@ user_data/
 venv/
 *.py[cod]
 *$py.class
+coco.names
+yolov3.weights
+yolov3.cfg
 
 # C extensions
 *.so
