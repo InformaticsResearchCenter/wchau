@@ -1,0 +1,6 @@
+gspread
+selenium
+oauthclient
+cv2
+numpy
+gpsread
