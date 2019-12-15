@@ -10,7 +10,6 @@ import gspread
 import os
 from time import sleep
 
-
 class Chatbot(object):
     def __init__(self, filename):
         self.filename = filename
@@ -100,14 +99,19 @@ class Chatbot(object):
                 self.gmaps(desti2)
             if "foto" in self.message:
                 sleep(1)
+
                 name = self.getName()
                 sleep(1)
+
                 self.retrievePicture()
                 sleep(1)
+
                 self.renamePicture(name)
                 sleep(1)
+
                 self.sendPicture(self.message[1], name)
                 sleep(1)
+
                 self.deletePicture()
                 sleep(1)
             if "yolo" in self.message:
@@ -187,8 +191,8 @@ class Chatbot(object):
             self.typeAndSendMessage(jadwalFix)
 
     def perhutani(self):
-        usEmail = "trianggadio@gmail.com"
-        usPass = "isSAME10"
+        usEmail = "email"
+        usPass = "password"
 
         self.driver.execute_script("window.open('https://www.tokoperhutani.com/beranda/searchFromRecap/4140100/4141100/4141102/010')")
         sleep(.5)
