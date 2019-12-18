@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from oauth2client.service_account import ServiceAccountCredentials
+import face_recognition
 import cv2
 import numpy as np
 import gspread
@@ -133,6 +134,26 @@ class Chatbot(object):
                 sleep(1)
 
                 self.typeAndSendMessage("Difoto terakhir yang dikirim ada object: " + objectnames)
+            if "face" in self.message:
+                sleep(1)
+
+                name = self.getName()
+                sleep(1)
+
+                self.retrievePicture()
+                sleep(1)
+
+                self.renamePicture(name)
+                sleep(1)
+
+                faceNames = self.listToString(self.faceRecognition(name))
+                sleep(1)
+
+                self.deletePicture()
+                sleep(1)
+
+                self.typeAndSendMessage("Difoto terakhir yang dikirim orangnya ada: " + faceNames)
+                sleep(1)
 
         except Exception as e:
             print(e)
@@ -144,7 +165,7 @@ class Chatbot(object):
         return (pesan.join(message))
 
     def movieSchedule(self, message):
-        hello = ["maman"]
+        hello = ["wanda"]
         mauNonton = ["bioskop", "film", "pilem"]
         namaKota = ["jakarta", "bandung"]
         namaLokasi = ["braga", "btc"]
@@ -443,6 +464,45 @@ class Chatbot(object):
                 objectNames.append(label)
 
         return objectNames
+
+    def faceRecognition(self, fileName):
+
+        rolly_picture = face_recognition.load_image_file("rolly.jpg")
+        rolly_encoding = face_recognition.face_encodings(rolly_picture)[0]
+
+        angga_picture = face_recognition.load_image_file("angga.jpg")
+        angga_encoding = face_recognition.face_encodings(angga_picture)[0]
+
+        known_face_encodings = [
+            rolly_encoding,
+            angga_encoding
+        ]
+
+        known_face_names = [
+            "Rolly M.A.",
+            "Tri Angga D.S"
+        ]
+
+        path = r"C:\Users\trian\Downloads"
+        nameFile = fileName + ".jpeg"
+
+        result = os.path.join(path, nameFile)
+
+        test_image = face_recognition.load_image_file(result)
+
+        face_locations = face_recognition.face_locations(test_image)
+        face_encodings = face_recognition.face_encodings(test_image, face_locations)
+
+        name = []
+
+        for face_encoding in face_encodings:
+            results = face_recognition.compare_faces(known_face_encodings, face_encoding, tolerance=0.45)
+
+            if True in results:
+                match_index = results.index(True)
+                name.append(known_face_names[match_index])
+
+        return name
 
     def openBrowser(self):
         self.saveProfile()
