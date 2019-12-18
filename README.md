@@ -1,2 +1,2 @@
 # wanda
-Whatsapp Web Chatbot Using Selenium
+WhatsApp Tanpa Derita
