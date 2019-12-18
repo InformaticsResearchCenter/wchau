@@ -9,6 +9,7 @@ venv/
 coco.names
 yolov3.weights
 yolov3.cfg
+*.jpg
 
 # C extensions
 *.so
