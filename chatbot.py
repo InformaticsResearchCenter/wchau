@@ -65,10 +65,10 @@ class Chatbot(object):
 
     def searchAndClick(self):
         search = self.driver.find_element_by_tag_name("input")
-        sirchsearch = search.get_attribute("title")
-        if sirchsearch == "Search or start new chat":
+        searchValue = search.get_attribute("title")
+        if searchValue == "Search or start new chat":
             search.click()
-            search.send_keys("sakeudap")
+            search.send_keys("key to search")
 
         sleep(5)
 
@@ -92,72 +92,60 @@ class Chatbot(object):
 
             if "bioskop" in self.message:
                 self.movieSchedule(self.message)
+
             if "perhutani" in self.message:
                 self.perhutani()
+
             if "gmaps" in self.message:
                 self.message.pop(0)
                 desti2 = self.listToString(self.message)
                 self.gmaps(desti2)
+
             if "foto" in self.message:
                 sleep(1)
-
                 name = self.getName()
                 sleep(1)
-
                 self.retrievePicture()
                 sleep(1)
-
                 self.renamePicture(name)
                 sleep(1)
-
                 self.sendPicture(self.message[1], name)
                 sleep(1)
-
                 self.deletePicture()
                 sleep(1)
+
             if "yolo" in self.message:
                 sleep(1)
-
                 name = self.getName()
                 sleep(1)
-
                 self.retrievePicture()
                 sleep(1)
-
                 self.renamePicture(name)
                 sleep(1)
-
                 objectnames = self.listToString(self.loadYolo(self.cocoNamesLoad(), name))
                 sleep(1)
-
                 self.deletePicture()
                 sleep(1)
-
                 self.typeAndSendMessage("Difoto terakhir yang dikirim ada object: " + objectnames)
+
             if "face" in self.message:
                 sleep(1)
-
                 name = self.getName()
                 sleep(1)
-
                 self.retrievePicture()
                 sleep(1)
-
                 self.renamePicture(name)
                 sleep(1)
-
                 faceNames = self.listToString(self.faceRecognition(name))
                 sleep(1)
-
                 self.deletePicture()
                 sleep(1)
-
                 self.typeAndSendMessage("Difoto terakhir yang dikirim orangnya ada: " + faceNames)
                 sleep(1)
 
         except Exception as e:
             print(e)
-            print("ga ada pesan ...")
+            print("No Message..")
 
     def listToString(self, message):
         pesan = " "
@@ -166,22 +154,22 @@ class Chatbot(object):
 
     def movieSchedule(self, message):
         hello = ["wanda"]
-        mauNonton = ["bioskop", "film", "pilem"]
-        namaKota = ["jakarta", "bandung"]
-        namaLokasi = ["braga", "btc"]
-        namaBioskop = ["xxi"]
+        keyWatch = ["bioskop", "film", "pilem"]
+        cityName = ["jakarta", "bandung"]
+        locationName = ["braga", "btc"]
+        cinemaName = ["xxi"]
 
         for i in message:
             if i in hello:
                 self.typeAndSendMessage("iya crot, aya naon?")
-            if i in mauNonton:
+            if i in keyWatch:
                 self.typeAndSendMessage("oke sip, ti antosan sakeudap")
                 for j in message:
-                    if j in namaKota:
+                    if j in cityName:
                         self.namkot = j
-                    if j in namaBioskop:
+                    if j in cinemaName:
                         self.nambios = j
-                    if j in namaLokasi:
+                    if j in locationName:
                         self.namlok = j
 
         sleep(1)
@@ -197,7 +185,7 @@ class Chatbot(object):
                 sleep(1)
                 self.driver.switch_to_window(self.driver.window_handles[0])
                 sleep(1)
-                self.typeAndSendMessage("data tidak ditemukan euy")
+                self.typeAndSendMessage("Data not found")
         except:
             jumlah = self.driver.find_elements_by_xpath("//div[contains(@class, 'col-sm-10 sched_desc')]")
             jadwal = ""
@@ -240,34 +228,34 @@ class Chatbot(object):
 
         self.driver.find_elements_by_class_name("paginate_button")[6].click()
 
-        asd = self.driver.find_elements_by_xpath("//table[@id='example' and @class='display select nowrap dataTable no-footer']/tbody/tr")
+        tableDataofOrder = self.driver.find_elements_by_xpath("//table[@id='example' and @class='display select nowrap dataTable no-footer']/tbody/tr")
 
-        for i in asd:
-            abc = i.text[9:22]
-            waduwek = abc.splitlines()
-            forCounting.append(waduwek)
+        for i in tableDataofOrder:
+            getNumberofOrder = i.text[9:22]
+            splitting = getNumberofOrder.splitlines()
+            forCounting.append(splitting)
 
-        itungan = 10 - len(forCounting)
+        count = 10 - len(forCounting)
 
         while cariData:
             asd = self.driver.find_elements_by_xpath("//table[@id='example' and @class='display select nowrap dataTable no-footer']/tbody/tr")
 
             for i in asd:
-                itungan += 1
-                abc = i.text[9:22]
-                waduwek = abc.splitlines()
+                count += 1
+                getNumberofOrder = i.text[9:22]
+                splitting = getNumberofOrder.splitlines()
 
-                if waduwek[0] in wekser:
+                if splitting[0] in wekser:
                     i.click()
-                    wektow = wekser.index(waduwek[0])
+                    wektow = wekser.index(splitting[0])
                     wekser.pop(wektow)
 
                 if len(wekser) == 0:
                     cariData = False
                     self.driver.find_elements_by_class_name("le-button")[1].click()
-                if itungan == 10 and len(wekser) >= 1:
-                    print("masih ada belanjaan lanjut")
-                    itungan = 0
+                if count == 10 and len(wekser) >= 1:
+                    print("There still another order, still working..")
+                    count = 0
                     self.driver.find_element_by_id("example_previous").click()
 
     def gmaps(self, destination):
@@ -280,7 +268,7 @@ class Chatbot(object):
         self.destination = destination
         sleep(1)
 
-        self.abc = self.driver.find_element_by_id("searchboxinput").get_attribute("value")
+        self.coordinate = self.driver.find_element_by_id("searchboxinput").get_attribute("value")
         sleep(1)
 
         self.driver.find_element_by_id("sb_cb50").click()
@@ -294,12 +282,12 @@ class Chatbot(object):
             sleep(1)
         except Exception as e:
             print(e)
-            print("ada dua objek tujuan!!")
+            print("There are 2 object or more destination!")
 
             cekButton = self.driver.find_elements_by_class_name("section-result-action-text")[0].text
 
             if cekButton == "Website":
-                print("Situs Web")
+                print("Websites")
                 self.driver.find_elements_by_class_name("section-result-action-text")[1].click()
                 sleep(2)
             else:
@@ -312,7 +300,7 @@ class Chatbot(object):
         self.driver.find_elements_by_class_name("tactile-searchbox-input")[2].send_keys(Keys.BACKSPACE)
         sleep(1)
 
-        self.driver.find_elements_by_class_name("tactile-searchbox-input")[2].send_keys(self.abc + Keys.ENTER)
+        self.driver.find_elements_by_class_name("tactile-searchbox-input")[2].send_keys(self.coordinate + Keys.ENTER)
         sleep(1)
 
         currentUrl = self.driver.current_url
@@ -459,7 +447,7 @@ class Chatbot(object):
             label = coconames[class_ids[i]]
 
             if label in objectNames:
-                print("sudah ada")
+                print("The object exist of list")
             else:
                 objectNames.append(label)
 
