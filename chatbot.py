@@ -51,29 +51,11 @@ class Chatbot(object):
         self.wait = WebDriverWait(self.driver, 600)
         self.wait.until(EC.presence_of_element_located((By.XPATH, self.x_arg)))
 
-    def waitLocation(self):
-        self.target = '"_2Wx_5 _3LG3B"'
-        self.x_arg = '//div[contains(@class, ' + self.target + ')]'
-        self.wait = WebDriverWait(self.driver, 600)
-        self.wait.until(EC.presence_of_element_located((By.XPATH, self.x_arg)))
-
     def typeAndSendMessage(self, message):
         self.message_target = self.driver.find_elements_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')[0]
         self.message_target.send_keys(message)
         self.sendbutton = self.driver.find_elements_by_xpath('//*[@id="main"]/footer/div[1]/div[3]/button')[0]
         self.sendbutton.click()
-
-    def searchAndClick(self):
-        search = self.driver.find_element_by_tag_name("input")
-        searchValue = search.get_attribute("title")
-        if searchValue == "Search or start new chat":
-            search.click()
-            search.send_keys("key to search")
-
-        sleep(5)
-
-        target = self.driver.find_elements_by_class_name("_19RFN _1ovWX")[-1]
-        target.click()
 
     def cekAndSendMessage(self):
         try:
@@ -89,6 +71,9 @@ class Chatbot(object):
             self.spanLower = self.span.lower()
 
             self.message = self.splitString(self.spanLower)
+
+            if "wanda" in self.message:
+                self.typeAndSendMessage("iya crot, aya naon?")
 
             if "bioskop" in self.message:
                 self.movieSchedule(self.message)
@@ -153,15 +138,12 @@ class Chatbot(object):
         return (pesan.join(message))
 
     def movieSchedule(self, message):
-        hello = ["wanda"]
         keyWatch = ["bioskop", "film", "pilem"]
         cityName = ["jakarta", "bandung"]
         locationName = ["braga", "btc"]
         cinemaName = ["xxi"]
 
         for i in message:
-            if i in hello:
-                self.typeAndSendMessage("iya crot, aya naon?")
             if i in keyWatch:
                 self.typeAndSendMessage("oke sip, ti antosan sakeudap")
                 for j in message:
