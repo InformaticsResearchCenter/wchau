@@ -1,6 +1,6 @@
+opencv-python
 gspread
 selenium
-oauthclient
-cv2
+oauth2client
 numpy
-gpsread
+face_recognition
