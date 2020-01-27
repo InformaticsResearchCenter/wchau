@@ -1,6 +1,6 @@
 import chatbot
 
-bot = chatbot.Chatbot("data_perhutani")
+bot = chatbot.Chatbot()
 
 bot.openBrowser()
 

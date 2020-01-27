@@ -4,37 +4,115 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from oauth2client.service_account import ServiceAccountCredentials
+from dateutil.parser import parse
+import datetime
 import face_recognition
 import cv2
 import numpy as np
 import gspread
 import os
+import dawet
 from time import sleep
 
 class Chatbot(object):
-    def __init__(self, filename):
-        self.filename = filename
-        self.openDb()
+    # def __init__(self, filename):
+    #     self.filename = filename
+    #     self.openDb()
+    #
+    # def openDb(self):
+    #     scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
+    #     creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
+    #     client = gspread.authorize(creds)
+    #     self.sheet = client.open(self.filename)
+    #
+    # def getData(self, rowname, colname, sheetnum):
+    #     self.dataError = True
+    #     while self.dataError:
+    #         try:
+    #             ambilData = self.sheet.get_worksheet(sheetnum).cell(
+    #                 self.sheet.get_worksheet(sheetnum).find(rowname).row,
+    #                 self.sheet.get_worksheet(sheetnum).find(colname).col).value
+    #             return ambilData
+    #         except Exception as e:
+    #             if str(e).find("RESOURCE_EXHAUSTED"):
+    #                 print("wait ...")
+    #                 sleep(100)
+    #                 self.dataError = True
 
-    def openDb(self):
-        scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-        creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
-        client = gspread.authorize(creds)
-        self.sheet = client.open(self.filename)
+    def getNilaiMahasiswa(self, npm, pertemuan):
+        if npm[:3] == "118":
+            db = dawet.Dawet("BukuProyek2")
+        elif npm[:3] == "117":
+            db = dawet.Dawet("BukuProyek3")
+        else:
+            db = dawet.Dawet("BukuInternship1")
 
-    def getData(self, rowname, colname, sheetnum):
-        self.dataError = True
-        while self.dataError:
-            try:
-                ambilData = self.sheet.get_worksheet(sheetnum).cell(
-                    self.sheet.get_worksheet(sheetnum).find(rowname).row,
-                    self.sheet.get_worksheet(sheetnum).find(colname).col).value
-                return ambilData
-            except Exception as e:
-                if str(e).find("RESOURCE_EXHAUSTED"):
-                    print("wait ...")
-                    sleep(100)
-                    self.dataError = True
+        nilai = db.getData(npm, pertemuan, 0)
+
+        if nilai == "not_found":
+            return "invalid"
+        elif nilai == "pertemuan_not_found":
+            return "pertemuan_invalid"
+        else:
+            nama_mahasiswa = db.getData(npm, "nama", 0)
+            nilai_rata = db.getData(npm, "rata_rata", 0)
+
+            hasil = []
+            hasil.append(nilai)
+            hasil.append(nama_mahasiswa)
+            hasil.append(nilai_rata)
+
+            return hasil
+
+    def cekJadwalSidang(self, pilihan):
+        db = dawet.Dawet("Jadwal_Sidang_Proyek_2")
+
+        allData = db.getAllData(1)
+
+        sekarang = datetime.datetime.now().date()
+        besok = sekarang + datetime.timedelta(days=1)
+        kemaren = sekarang - datetime.timedelta(days=1)
+        lusa = sekarang + datetime.timedelta(days=2)
+
+        if pilihan == "sekarang":
+            self.pilihanTanggal = sekarang
+            runnerVariable = 1
+        if pilihan == "besok":
+            self.pilihanTanggal = besok
+            runnerVariable = 1
+        if pilihan == "kemarin":
+            self.pilihanTanggal = kemaren
+            runnerVariable = 1
+        if pilihan == "lusa":
+            self.pilihanTanggal = lusa
+            runnerVariable = 1
+
+        if runnerVariable == 1:
+            for data in allData:
+                try:
+                    tanggal = parse(data[0]).date()
+                    print(self.pilihanTanggal)
+
+                    print(tanggal)
+
+                    if self.pilihanTanggal == tanggal:
+                        getIndex = allData.index(data)
+
+                        nextData = allData[getIndex:]
+
+                        for nextdata in nextData:
+                            if nextdata[0] == '':
+                                getIndexNull = nextData.index(nextdata)
+
+                        result = nextData[:getIndexNull]
+
+                        return result
+
+                except:
+                    print("beda")
+        else:
+            return "no_pilihan"
+
 
     def saveProfile(self):
         self.options = webdriver.ChromeOptions()
@@ -57,12 +135,31 @@ class Chatbot(object):
         self.sendbutton = self.driver.find_elements_by_xpath('//*[@id="main"]/footer/div[1]/div[3]/button')[0]
         self.sendbutton.click()
 
+    def deleteMessage(self):
+        self.driver.find_elements_by_class_name('_3j8Pd')[-1].click()
+        sleep(1)
+
+        value_name = self.driver.find_elements_by_class_name('_3zy-4')
+        sleep(1)
+
+        if 'Exit group' in value_name[4].text:
+            print('group')
+            value_name[3].click()
+            self.driver.find_elements_by_class_name('_2eK7W')[1].click()
+        else:
+            print('personal')
+            value_name[4].click()
+            self.driver.find_elements_by_class_name('_2eK7W')[1].click()
+
     def cekAndSendMessage(self):
         try:
-            self.chat = self.driver.find_elements_by_class_name("P6z4j")[0]
-            self.chat.click()
-            self.chat.click()
-            self.chat.click()
+            try:
+                self.chat = self.driver.find_elements_by_class_name("P6z4j")[0]
+                self.chat.click()
+                self.chat.click()
+                self.chat.click()
+            except:
+                print('skip data')
 
             sleep(0.5)
 
@@ -74,6 +171,36 @@ class Chatbot(object):
 
             if "wanda" in self.message:
                 self.typeAndSendMessage("iya crot, aya naon?")
+
+            if "sidang" in self.message:
+                try:
+                    jadwal = self.cekJadwalSidang(self.message[1])
+                    jadwal.pop(0)
+                    jadwal.pop(0)
+
+                    if jadwal == "no_pilihan":
+                        self.typeAndSendMessage("pilihan salah")
+                    else:
+                        for i in jadwal:
+                            self.typeAndSendMessage("NPM: "+i[0]+", Nama: "+i[1]+", Penguji utama: "+i[2]+", Penguji pendamping: "+i[3]+", Jam: "+i[5]+", Lokasi: "+i[6])
+                except:
+                    self.typeAndSendMessage("jadwal sidang "+self.message[1]+" tidak ada")
+
+            if "nilai" in self.message:
+                npm = self.message[1]
+                pertemuan = self.message[2]
+                hasil = self.getNilaiMahasiswa(npm, pertemuan)
+
+                if hasil == "invalid":
+                    self.typeAndSendMessage("npm saha ieu crot?")
+                elif hasil == "pertemuan_invalid":
+                    self.typeAndSendMessage("format salah, contoh: nilai 1184047 pertemuan1")
+                else:
+                    self.typeAndSendMessage("NPM: "+npm+", Nama: "+hasil[1]+", Nilai: "+hasil[0]+", Nilai rata-rata: "+hasil[2])
+
+
+            if "love" in self.message:
+                self.typeAndSendMessage("love you too <3")
 
             if "bioskop" in self.message:
                 self.movieSchedule(self.message)
@@ -99,7 +226,7 @@ class Chatbot(object):
                 self.deletePicture()
                 sleep(1)
 
-            if "yolo" in self.message:
+            if "gambar" in self.message:
                 sleep(1)
                 name = self.getName()
                 sleep(1)
@@ -145,7 +272,6 @@ class Chatbot(object):
 
         for i in message:
             if i in keyWatch:
-                self.typeAndSendMessage("oke sip, ti antosan sakeudap")
                 for j in message:
                     if j in cityName:
                         self.namkot = j
@@ -156,8 +282,7 @@ class Chatbot(object):
 
         sleep(1)
 
-        self.driver.execute_script(
-            "window.open('https://jadwalnonton.com/bioskop/di-" + self.namkot + '/' + self.namlok + '-' + self.nambios + '-' + self.namkot + ".html');")
+        self.driver.execute_script("window.open('https://jadwalnonton.com/bioskop/di-" + self.namkot + '/' + self.namlok + '-' + self.nambios + '-' + self.namkot + ".html');")
 
         self.driver.switch_to_window(self.driver.window_handles[1])
         try:
@@ -306,7 +431,7 @@ class Chatbot(object):
         self.driver.find_element_by_css_selector("span[data-icon='clip']").click()
         sleep(2)
 
-        path = r"C:\Users\trian\Downloads"
+        path = r"C:\Users\rolly\Downloads"
         nameFile = filePath + ".jpeg"
 
         result = os.path.join(path, nameFile)
@@ -328,7 +453,7 @@ class Chatbot(object):
         sleep(1)
 
     def deletePicture(self):
-        dir_name = "/Users/trian/Downloads/"
+        dir_name = "/Users/rolly/Downloads/"
         list = os.listdir(dir_name)
 
         for item in list:
@@ -358,7 +483,7 @@ class Chatbot(object):
         return name
 
     def renamePicture(self, fileName):
-        dir_name = "/Users/trian/Downloads/"
+        dir_name = "/Users/rolly/Downloads/"
         list = os.listdir(dir_name)
 
         print(list)
@@ -387,7 +512,7 @@ class Chatbot(object):
         for i in model.getUnconnectedOutLayers():
             outputLayer.append(layerNames[i[0] - 1])
 
-        path = r"C:\Users\trian\Downloads"
+        path = r"C:\Users\rolly\Downloads"
         nameFile = fileName + ".jpeg"
 
         result = os.path.join(path, nameFile)
@@ -453,7 +578,7 @@ class Chatbot(object):
             "Tri Angga D.S"
         ]
 
-        path = r"C:\Users\trian\Downloads"
+        path = r"C:\Users\rolly\Downloads"
         nameFile = fileName + ".jpeg"
 
         result = os.path.join(path, nameFile)
