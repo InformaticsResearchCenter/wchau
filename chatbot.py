@@ -272,7 +272,19 @@ class Chatbot(object):
                 sleep(1)
                 self.typeAndSendMessage("Difoto terakhir yang dikirim orangnya ada: " + faceNames)
                 sleep(1)
-
+            
+            # bully #
+            rage_sentence = ["bodoh", "jelek", "anjing", "bangsat", "bego", "tolol", "idiot", "bau"] #kata yg diperkirakan dimasukkan
+            if any(x in self.message for x in rage_sentence) and "wanda" in self.message: #cek kata
+                balesan = [
+                    "Ya allah Tolongin Baim Ya allah (ಥ﹏ಥ)", "Kok kamu jahat bIiinNNNnngggGGHHiitzzz sich sama aku zheyeng ('・ω・')", 
+                    "Tak ada manusia yang terlahir \ndi download \n(´-﹏-`；)", "Ya Maaf (ಥ﹏ಥ)", "sudah cukup rhoma (｡ŏ﹏ŏ)"
+                    , "rangga yang kamu lakukan ke saya itu \n JAHAT \n(;´༎ຶД༎ຶ`)", "Kamu belom perna liat aku marah yaaahhh!!! (；･`д･´)"
+                    ,"Bumi ini aja aku pijak \napalagi kepala kau \n(；･`д･´)"
+                ]
+            marah = random.choice(balesan)
+            self.typeAndSendMessage(marah)
+            
             # Joke #
             joke_sentence = ["ngelucu", "ngelawak", "ngejoke", "ngereceh"] #kata yg diperkirakan dimasukkan
             if any(x in self.message for x in joke_sentence) and "wanda" in self.message: #cek kata
@@ -657,3 +669,5 @@ class Chatbot(object):
         self.saveProfile()
         self.driver.get("https://web.whatsapp.com/")
         self.waitLogin()
+
+    #===========================COBA DLU GENGS
