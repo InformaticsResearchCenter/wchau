@@ -335,6 +335,20 @@ class Chatbot(object):
                 joke = random.choice(list_joke) #milih random
                 self.typeAndSendMessage(joke)
 
+            # santuy #
+			if "salam" in self.message and "wanda" in self.message:
+                self.typeAndSendMessage("assalamualaikum")
+			if "assalamualaikum" in self.message and "wanda" in self.message:
+                self.typeAndSendMessage("waalaikumsalam")
+			if "gimana kabarmu?" in self.massage and "wanda" in self.massage:
+				self.typeAndSendMessage("Saya baik-baik saja kok kak :-)") and self.typeAndSendMessage("apakah kakak juga baik?")
+			if "siapa yang menciptakan kamu?" in self.massage and "wanda" in self.massage:
+				self.typeAndSendMessage("Tim IRC kakak, mereka hebat-hebat makanya sekarang wanda menjadi pintar :-)")
+			if "aku cape" in self.massage and "wanda" in self.massage:
+				self.typeAndSendMessage("jangan lupa makan dan istrahat ya kakak :-)")
+			if "sampurasun" in self.massage and "wanda" in self.massage:
+				self.typeAndSendMessage("Rampes")
+
             #teka-teki#
             teka_teki = ["teka-teki", "main"]
             if any(x in self.message for x in teka_teki) and "wanda" in self.message: #cek kata
