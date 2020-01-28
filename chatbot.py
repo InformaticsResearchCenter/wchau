@@ -306,6 +306,34 @@ class Chatbot(object):
             joke = random.choice(list_joke) #milih random
             self.typeAndSendMessage(joke)
 
+            #teka-teki#
+            teka_teki = ["teka-teki", "main dong"]
+            if any(x in self.message for x in teka_teki) and "wanda" in self.message: #cek kata
+                list_tekateki = [
+                    "Ade ray kalau kentut bunyinya gimana? \n Brotot, brotot, brottott " , 
+                    "Sandal apa yang paling enak di dunia? \n Sandal terasi", 
+                    "Apa perbedaan aksi dengan demo? \n Kalo aksi rodanya empat kalo demo rodanya tiga",
+                    "Pintu apa yang didorong nggak bakalan pernah bisa terbuka? \n Pintu yang ada tulisannya geser",
+                    "Belut apa yg paling bahaya? \n belut-ang banyak ental bangklut",
+                    "Kebo apa yg bikin kita lelah? \n kebogor jalan kaki",
+                    "Ada 5 orang yang berjalan dibawah 1 payung kecil tapi anehnya tidak seorang pun yang kehujanan, kenapa? \n Karena tidak hujan",
+                    "Bebek apa yang jalannya muter ke kiri terus? \n Bebek dikunci stang",
+                    "Kaki seribu kalo belok kiri kakinya berapa? \n Tetep 1000, karena belok kiri jalan terus",
+                    "Tamunya sudah masuk, malah yang punya diluar, apa? \n Tukang becak",
+                    "Kentang apa yang paling dingin? \n KENTANGkuban perahu pada malam hari",
+                    "Tukang apa yang setiap dipanggil pasti bakal menengok keatas? \n Tukang gali sumur",
+                    "Tivi apa yang bisa berenang? \n TIVIkir vikir sih ikan",
+                    "Tukang apa yang walaupun untung rugi tetap tepuk tangan? \n Tukang abu gosok",
+                    "Aku ada diantara surga dan neraka. Siapakah aku? \n Dan",
+                    "Aku adalah gelar yang tidak pas apabila diberikan kepada orang yang hidup. Gelar apakah aku? \n Gelar almarhum",
+                    "Benda apa yang jika dipotong pasti nyambung lagi. Benda apakah itu? \n air",
+                    "Masuk tanda seru dan keluar tanda tanya. Apakah itu? \n Ngupil",
+                ]
+            tekateki = random.choice(list_tekateki) 
+            self.typeAndSendMessage(tekateki)
+
+            
+
         except Exception as e:
             print(e)
             print("No Message..")
