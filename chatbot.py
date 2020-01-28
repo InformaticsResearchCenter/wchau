@@ -170,11 +170,19 @@ class Chatbot(object):
             self.message = self.splitString(self.spanLower)
 
             if "wanda" in self.message:
-                self.typeAndSendMessage("iya crot, aya naon?")
+                 self.typeAndSendMessage("iyaaaaaa :-D")
 
-            if "sidang" in self.message:
+            if "terima" in self.message and "kasih" in self.message and "wanda" in self.message:
+                self.typeAndSendMessage("sama sama :-)")
+
+            if "nuhun" in self.message and "wanda" in self.message:
+                self.typeAndSendMessage("sami sami :-D")
+
+            if "sidang" in self.message and "wanda" in self.message:
+                self.typeAndSendMessage("ok, tunggu sebentar ya :D")
+                getIndex = self.message.index("sidang")
                 try:
-                    jadwal = self.cekJadwalSidang(self.message[1])
+                    jadwal = self.cekJadwalSidang(self.message[getIndex+1])
                     jadwal.pop(0)
                     jadwal.pop(0)
 
@@ -184,17 +192,20 @@ class Chatbot(object):
                         for i in jadwal:
                             self.typeAndSendMessage("NPM: "+i[0]+", Nama: "+i[1]+", Penguji utama: "+i[2]+", Penguji pendamping: "+i[3]+", Jam: "+i[5]+", Lokasi: "+i[6])
                 except:
-                    self.typeAndSendMessage("jadwal sidang "+self.message[1]+" tidak ada")
+                    self.typeAndSendMessage("jadwal sidang "+self.message[getIndex+1]+" tidak ada")
 
-            if "nilai" in self.message:
-                npm = self.message[1]
-                pertemuan = self.message[2]
+            if "nilai" in self.message and "wanda" in self.message:
+                self.typeAndSendMessage("sip, ti antosan sakeudap :)")
+                getIndex = self.message.index("nilai")
+
+                npm = self.message[getIndex+1]
+                pertemuan = self.message[getIndex+2]
                 hasil = self.getNilaiMahasiswa(npm, pertemuan)
 
                 if hasil == "invalid":
-                    self.typeAndSendMessage("npm saha ieu crot?")
+                    self.typeAndSendMessage("maaf npmnya ga wanda temuin :'(, mungkin npmnya salah, coba dicek lagi deh :)")
                 elif hasil == "pertemuan_invalid":
-                    self.typeAndSendMessage("format salah, contoh: nilai 1184047 pertemuan1")
+                    self.typeAndSendMessage("format salah, contoh: pertemuan1")
                 else:
                     self.typeAndSendMessage("NPM: "+npm+", Nama: "+hasil[1]+", Nilai: "+hasil[0]+", Nilai rata-rata: "+hasil[2])
 
