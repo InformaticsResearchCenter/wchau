@@ -172,6 +172,12 @@ class Chatbot(object):
             if "wanda" in self.message:
                  self.typeAndSendMessage("iyaaaaaa :-D")
 
+            if "wanda" in self.message and "info" in self.message:
+                self.sendPictureWithoutPhoneNumber()
+                self.typeAndSendMessage("Halo, perkenalkan Nama aku wanda, Rumah aku di Jl Sariasih No. 54 Bandung, Aku sekolah di IRC")
+                self.typeAndSendMessage("fotonya hanya contoh ya teman-teman, biar ga kena copyright, sebenernya wanda cantik kok <3")
+
+
             if "terima" in self.message and "kasih" in self.message and "wanda" in self.message:
                 self.typeAndSendMessage("sama sama :-)")
 
@@ -179,7 +185,7 @@ class Chatbot(object):
                 self.typeAndSendMessage("sami sami :-D")
 
             if "sidang" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("ok, tunggu sebentar ya :D")
+                self.typeAndSendMessage("ok, tunggu sebentar ya :-D")
                 getIndex = self.message.index("sidang")
                 try:
                     jadwal = self.cekJadwalSidang(self.message[getIndex+1])
@@ -195,7 +201,7 @@ class Chatbot(object):
                     self.typeAndSendMessage("jadwal sidang "+self.message[getIndex+1]+" tidak ada")
 
             if "nilai" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("sip, ti antosan sakeudap :)")
+                self.typeAndSendMessage("sip, ti antosan sakeudap :-)")
                 getIndex = self.message.index("nilai")
 
                 npm = self.message[getIndex+1]
@@ -203,7 +209,7 @@ class Chatbot(object):
                 hasil = self.getNilaiMahasiswa(npm, pertemuan)
 
                 if hasil == "invalid":
-                    self.typeAndSendMessage("maaf npmnya ga wanda temuin :'(, mungkin npmnya salah, coba dicek lagi deh :)")
+                    self.typeAndSendMessage("maaf npmnya ga wanda temuin :'-(, mungkin npmnya salah, coba dicek lagi deh :-)")
                 elif hasil == "pertemuan_invalid":
                     self.typeAndSendMessage("format salah, contoh: pertemuan1")
                 else:
@@ -232,7 +238,7 @@ class Chatbot(object):
                 sleep(1)
                 self.renamePicture(name)
                 sleep(1)
-                self.sendPicture(self.message[1], name)
+                self.sendPictureWithPhoneNumber(self.message[1], name)
                 sleep(1)
                 self.deletePicture()
                 sleep(1)
@@ -433,7 +439,7 @@ class Chatbot(object):
         self.typeAndSendMessage(currentUrl)
         sleep(1)
 
-    def sendPicture(self, phoneNumber, filePath):
+    def sendPictureWithPhoneNumber(self, phoneNumber, filePath):
         self.driver.get("https://web.whatsapp.com/send?phone=" + phoneNumber)
 
         self.waitLogin()
@@ -444,6 +450,21 @@ class Chatbot(object):
 
         path = r"C:\Users\rolly\Downloads"
         nameFile = filePath + ".jpeg"
+
+        result = os.path.join(path, nameFile)
+
+        self.driver.find_element_by_css_selector("input[type='file']").send_keys(result)
+        sleep(1)
+
+        self.driver.find_element_by_css_selector("span[data-icon='send-light").click()
+        sleep(1)
+
+    def sendPictureWithoutPhoneNumber(self):
+        self.driver.find_element_by_css_selector("span[data-icon='clip']").click()
+        sleep(2)
+
+        path = r"C:\Users\rolly\Downloads"
+        nameFile = "wanda.png"
 
         result = os.path.join(path, nameFile)
 
