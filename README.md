@@ -2,8 +2,8 @@
 WhatsApp Tanpa Derita
 
 For Developer: 
-0. Install CMAKE
-1. Please, Ask for the requirements file.
+1. Install CMAKE
+2. Please, Ask for the requirements file.
 
 
 new branch: development
