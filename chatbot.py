@@ -12,6 +12,7 @@ import numpy as np
 import gspread
 import os
 import dawet
+import random
 from time import sleep
 
 class Chatbot(object):
@@ -271,6 +272,27 @@ class Chatbot(object):
                 sleep(1)
                 self.typeAndSendMessage("Difoto terakhir yang dikirim orangnya ada: " + faceNames)
                 sleep(1)
+
+            # Joke #
+            joke_sentence = ["ngelucu", "ngelawak", "ngejoke", "ngereceh"] #kata yg diperkirakan dimasukkan
+            if any(x in self.message for x in joke_sentence) and "wanda" in self.message: #cek kata
+                list_joke = [
+                "Sahabat dekat biasanya akan mengajak makan kepiting bareng, karena sahabat yang dekat adalah sahabat a crab :)",
+                "Rombongan bebek lagi nyebrang \nTrus ada satu bebek yang ketabrak motor \nBebek 1: Kamu gpp? \nBebek 2: Aku bebek aja kok :)",
+                "Kalo semua hal harus dipikirkan masak-masak, gimana nasib orang-orang yg ngga bisa masak :(",
+                "Bang peseng es campurnya satu, tapi dipisah ya bang. Soalnya aku khawatir nggak bisa bedain mana yang tulus dan mana yg modus :)",
+                "Pembeli: Bang, ngapain ngobrol sama martabak? \nPenjual: Kata pembelinya, martabaknya jgn dikacangin :)",
+                "Pembeli: Mbak, beli es tehnya \nPenjual: Manis gak? \nPembeli: Gak usah manis-manis, yg penting setia dan mau menerima saya apa adanya :)",
+                "Kalo ketemu begal di jalan, jgn takut. Kasi balsem aja, karena balsem bisa menghilangkan begal-begal :)",
+                "Kalo bercanda jgn suka kelewatan, soalnya kalo kelewatan ntar lo mesti muter balik :)",
+                "Jalan sama gebetan pake flat shoes, ditengah jalan ketemu mantannya dia, trus mereka ngobrol, aku dan sepatuku gak ada hak :')",
+                "Cewek itu makhluk kuat, listrik aja dipake dibibir :(",
+                "Kunci rumah gue hilang, mau masuk gak bisa. Gue cari dimana-mana gak ketemu. Akhirnya gue ambil napas panjang dan istigfar, eh pintunya kebuka. Baru inget kalo ternyata kuncinya sabar :')",
+                "Pray for Banten, ibukotanya di serang :')",
+                "Aku barusan ke kantor polisi bikin surat kehilangan, tp ditolak. Aku bilangnya aku kehilangan kamu :("
+            ]
+            joke = random.choice(list_joke) #milih random
+            self.typeAndSendMessage(joke)
 
         except Exception as e:
             print(e)
