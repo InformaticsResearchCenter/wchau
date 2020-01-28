@@ -14,6 +14,7 @@ import os
 import dawet
 import random
 from time import sleep
+from googletrans import Translator
 
 class Chatbot(object):
     # def __init__(self, filename):
@@ -171,7 +172,9 @@ class Chatbot(object):
             self.message = self.splitString(self.spanLower)
 
             if "wanda" in self.message:
-                 self.typeAndSendMessage("iyaaaaaa :-D")
+                list_jawaban = ["iyaaaaaa :-D", "iya, kenapa?", "iya, butuh bantuan?"]
+                jawaban = random.choice(list_jawaban)
+                self.typeAndSendMessage(jawaban)
 
             if "wanda" in self.message and "info" in self.message:
                 self.sendPictureWithoutPhoneNumber()
@@ -184,6 +187,23 @@ class Chatbot(object):
 
             if "nuhun" in self.message and "wanda" in self.message:
                 self.typeAndSendMessage("sami sami :-D")
+
+            if "makasih" in self.message and "wanda" in self.message:
+                self.typeAndSendMessage("yoi, cama-cama")
+
+            if "pintar" in self.message and "wanda" in self.message:
+                self.typeAndSendMessage("Oo, iya dong, makasih atas pujiannya")
+
+            if "ngeselin" in self.message or "kesal" in self.message and "wanda" in self.message:
+                self.typeAndSendMessage("hmm, maaf ya kalo wanda ada salah sama kamu")
+
+            if "beliin" in self.message and "rokok" in self.message and "wanda" in self.message:
+                self.typeAndSendMessage("bukannya wanda gak mau beliin, tapi rokok itu gak baik buat kesehatan, lebih baik rokoknya diganti sama wanda aja gimana?")
+
+            if "centil" in self.message or "nakal" in self.message and "wanda" in self.message:
+                lst_jawaban = ["emang kenapa? ada masalah?", "trus? masalah buat kamu?"]
+                answer = random.choice(lst_jawaban)
+                self.typeAndSendMessage(answer)
 
             if "sidang" in self.message and "wanda" in self.message:
                 self.typeAndSendMessage("ok, tunggu sebentar ya :-D")
@@ -256,7 +276,13 @@ class Chatbot(object):
                 sleep(1)
                 self.deletePicture()
                 sleep(1)
-                self.typeAndSendMessage("Difoto terakhir yang dikirim ada object: " + objectnames)
+                print(objectnames)
+                if objectnames != "":
+                    self.typeAndSendMessage(
+                        "Digambar yang kamu kirim wanda bisa menemukan objek, objeknya yaitu " + objectnames)
+                else:
+                    self.typeAndSendMessage(
+                        "ihhhh, wanda gak tau ada objek apa aja digambar yang kamu kirimin, maaf ya, coba kirimin gambar yang lebih jelas")
 
             if "face" in self.message:
                 sleep(1)
@@ -270,21 +296,24 @@ class Chatbot(object):
                 sleep(1)
                 self.deletePicture()
                 sleep(1)
-                self.typeAndSendMessage("Difoto terakhir yang dikirim orangnya ada: " + faceNames)
+                if faceNames != "":
+                    self.typeAndSendMessage("Difoto yang kamu kirimin wanda bisa menemukan foto kak " + faceNames)
+                else:
+                    self.typeAndSendMessage("Foto siapa ntuh, gak kenal ih")
                 sleep(1)
-            
+
             # bully #
             rage_sentence = ["bodoh", "jelek", "anjing", "bangsat", "bego", "tolol", "idiot", "bau"] #kata yg diperkirakan dimasukkan
             if any(x in self.message for x in rage_sentence) and "wanda" in self.message: #cek kata
                 balesan = [
-                    "Ya allah Tolongin Baim Ya allah (ಥ﹏ಥ)", "Kok kamu jahat bIiinNNNnngggGGHHiitzzz sich sama aku zheyeng ('・ω・')", 
-                    "Tak ada manusia yang terlahir \ndi download \n(´-﹏-`；)", "Ya Maaf (ಥ﹏ಥ)", "sudah cukup rhoma (｡ŏ﹏ŏ)"
-                    , "rangga yang kamu lakukan ke saya itu \n JAHAT \n(;´༎ຶД༎ຶ`)", "Kamu belom perna liat aku marah yaaahhh!!! (；･`д･´)"
-                    ,"Bumi ini aja aku pijak \napalagi kepala kau \n(；･`д･´)"
+                    "Ya allah Tolongin Baim Ya allah (ಥ﹏ಥ)", "Kok kamu jahat bIiinNNNnngggGGHHiitzzz sich sama aku zheyeng ('・ω・')",
+                    "Tak ada manusia yang terlahir \ndi download \n(´-﹏-`；)", "Ya Maaf (ಥ﹏ಥ)", "sudah cukup rhoma (｡ŏ﹏ŏ)",
+                    "rangga yang kamu lakukan ke saya itu \n JAHAT \n(;´༎ຶД༎ຶ`)", "Kamu belom pernah liat aku marah yaaahhh!!! (；･`д･´)",
+                    "Bumi ini aja aku pijak \napalagi kepala kau \n(；･`д･´)"
                 ]
-            marah = random.choice(balesan)
-            self.typeAndSendMessage(marah)
-            
+                marah = random.choice(balesan)
+                self.typeAndSendMessage(marah)
+
             # Joke #
             joke_sentence = ["ngelucu", "ngelawak", "ngejoke", "ngereceh"] #kata yg diperkirakan dimasukkan
             if any(x in self.message for x in joke_sentence) and "wanda" in self.message: #cek kata
@@ -302,12 +331,12 @@ class Chatbot(object):
                 "Kunci rumah gue hilang, mau masuk gak bisa. Gue cari dimana-mana gak ketemu. Akhirnya gue ambil napas panjang dan istigfar, eh pintunya kebuka. Baru inget kalo ternyata kuncinya sabar :')",
                 "Pray for Banten, ibukotanya di serang :')",
                 "Aku barusan ke kantor polisi bikin surat kehilangan, tp ditolak. Aku bilangnya aku kehilangan kamu :("
-            ]
-            joke = random.choice(list_joke) #milih random
-            self.typeAndSendMessage(joke)
+                ]
+                joke = random.choice(list_joke) #milih random
+                self.typeAndSendMessage(joke)
 
             #teka-teki#
-            teka_teki = ["teka-teki", "main dong"]
+            teka_teki = ["teka-teki", "main"]
             if any(x in self.message for x in teka_teki) and "wanda" in self.message: #cek kata
                 list_tekateki = [
                     "Ade ray kalau kentut bunyinya gimana? \n Brotot, brotot, brottott " , 
@@ -329,10 +358,8 @@ class Chatbot(object):
                     "Benda apa yang jika dipotong pasti nyambung lagi. Benda apakah itu? \n air",
                     "Masuk tanda seru dan keluar tanda tanya. Apakah itu? \n Ngupil",
                 ]
-            tekateki = random.choice(list_tekateki) 
-            self.typeAndSendMessage(tekateki)
-
-            
+                tekateki = random.choice(list_tekateki)
+                self.typeAndSendMessage(tekateki)
 
         except Exception as e:
             print(e)
@@ -510,7 +537,7 @@ class Chatbot(object):
         self.driver.find_element_by_css_selector("span[data-icon='clip']").click()
         sleep(2)
 
-        path = r"C:\Users\rolly\Downloads"
+        path = r"C:\Users\trian\Downloads"
         nameFile = filePath + ".jpeg"
 
         result = os.path.join(path, nameFile)
@@ -525,7 +552,7 @@ class Chatbot(object):
         self.driver.find_element_by_css_selector("span[data-icon='clip']").click()
         sleep(2)
 
-        path = r"C:\Users\rolly\Downloads"
+        path = r"C:\Users\trian\Downloads"
         nameFile = "wanda.png"
 
         result = os.path.join(path, nameFile)
@@ -547,7 +574,7 @@ class Chatbot(object):
         sleep(1)
 
     def deletePicture(self):
-        dir_name = "/Users/rolly/Downloads/"
+        dir_name = "/Users/trian/Downloads/"
         list = os.listdir(dir_name)
 
         for item in list:
@@ -577,7 +604,7 @@ class Chatbot(object):
         return name
 
     def renamePicture(self, fileName):
-        dir_name = "/Users/rolly/Downloads/"
+        dir_name = "/Users/trian/Downloads/"
         list = os.listdir(dir_name)
 
         print(list)
@@ -606,7 +633,7 @@ class Chatbot(object):
         for i in model.getUnconnectedOutLayers():
             outputLayer.append(layerNames[i[0] - 1])
 
-        path = r"C:\Users\rolly\Downloads"
+        path = r"C:\Users\trian\Downloads"
         nameFile = fileName + ".jpeg"
 
         result = os.path.join(path, nameFile)
@@ -643,16 +670,20 @@ class Chatbot(object):
                     class_ids.append(class_id)
                     confidences.append(float(confidence))
 
-        objectNames = []
+        #translate
+        translate = Translator()
+        namaObjek = []
         for i in range(len(boxes)):
             label = coconames[class_ids[i]]
+            hasilTranslate = translate.translate(label, dest='id').text
+            print(hasilTranslate)
 
-            if label in objectNames:
+            if hasilTranslate in namaObjek:
                 print("The object exist of list")
             else:
-                objectNames.append(label)
+                namaObjek.append(hasilTranslate)
 
-        return objectNames
+        return namaObjek
 
     def faceRecognition(self, fileName):
 
@@ -672,7 +703,7 @@ class Chatbot(object):
             "Tri Angga D.S"
         ]
 
-        path = r"C:\Users\rolly\Downloads"
+        path = r"C:\Users\trian\Downloads"
         nameFile = fileName + ".jpeg"
 
         result = os.path.join(path, nameFile)
