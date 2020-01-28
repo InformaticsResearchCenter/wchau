@@ -313,6 +313,15 @@ class Chatbot(object):
                 ]
                 marah = random.choice(balesan)
                 self.typeAndSendMessage(marah)
+            #formal
+            if "selamat" in self.message and "siang" in self.message and "wanda" in self.message:
+                self.typeAndSendMessage("iya, selamat siang :-)")
+            if "selamat" in self.message and "sore" in self.message and "wanda" in self.message:
+                self.typeAndSendMessage("iya, selamat sore :-)")
+            if "selamat" in self.message and "malam" in self.message and "wanda" in self.message:
+                self.typeAndSendMessage("iya, selamat malam :-)")
+            if "selamat" in self.message and "pagi" in self.message and "wanda" in self.message:
+                self.typeAndSendMessage("iya, selamat pagi :-)")
 
             # Joke #
             joke_sentence = ["ngelucu", "ngelawak", "ngejoke", "ngereceh"] #kata yg diperkirakan dimasukkan
@@ -336,18 +345,18 @@ class Chatbot(object):
                 self.typeAndSendMessage(joke)
 
             # santuy #
-			if "salam" in self.message and "wanda" in self.message:
+            if "salam" in self.message and "wanda" in self.message:
                 self.typeAndSendMessage("assalamualaikum")
 			if "assalamualaikum" in self.message and "wanda" in self.message:
                 self.typeAndSendMessage("waalaikumsalam")
 			if "gimana kabarmu?" in self.massage and "wanda" in self.massage:
-				self.typeAndSendMessage("Saya baik-baik saja kok kak :-)") and self.typeAndSendMessage("apakah kakak juga baik?")
+                self.typeAndSendMessage("Saya baik-baik saja kok kak :-)") and self.typeAndSendMessage("apakah kakak juga baik?")
 			if "siapa yang menciptakan kamu?" in self.massage and "wanda" in self.massage:
-				self.typeAndSendMessage("Tim IRC kakak, mereka hebat-hebat makanya sekarang wanda menjadi pintar :-)")
+                self.typeAndSendMessage("Tim IRC kakak, mereka hebat-hebat makanya sekarang wanda menjadi pintar :-)")
 			if "aku cape" in self.massage and "wanda" in self.massage:
-				self.typeAndSendMessage("jangan lupa makan dan istrahat ya kakak :-)")
+                self.typeAndSendMessage("jangan lupa makan dan istrahat ya kakak :-)")
 			if "sampurasun" in self.massage and "wanda" in self.massage:
-				self.typeAndSendMessage("Rampes")
+                self.typeAndSendMessage("Rampes")
 
             #teka-teki#
             teka_teki = ["teka-teki", "main"]
