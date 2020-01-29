@@ -237,8 +237,20 @@ class Chatbot(object):
                     self.typeAndSendMessage("NPM: "+npm+", Nama: "+hasil[1]+", Nilai: "+hasil[0]+", Nilai rata-rata: "+hasil[2])
 
 
-            if "love" in self.message:
+            if "love" in self.message and "wanda" in self.message:
                 self.typeAndSendMessage("love you too <3")
+            
+            if "aku" in self.message and "cantik" in self.message and "wanda" in self.message:
+                ihuy = [
+                    "iya kamu cantik bangeett deehh (^o^)", "iya kamu cantik tapi masih cantikan akuu hehehe"
+                    ,"iyaa zheyengg"
+                ]
+                love = random.choice(ihuy)
+                self.typeAndSendMessage(love)
+            if "kamu" in self.message and "cantik" in self.message and "wanda" in self.message:
+                ayey = [
+                    "terima kasihh kakak yang maniss (/◕ヮ◕)/","awww terima kasiihh (≧▽≦)","love you kak (ㆁωㆁ*)"
+                ]
 
             if "bioskop" in self.message:
                 self.movieSchedule(self.message)
