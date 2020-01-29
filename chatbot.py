@@ -402,6 +402,30 @@ class Chatbot(object):
                 tekateki = random.choice(list_tekateki)
                 self.typeAndSendMessage(tekateki)
 
+
+            # gombalan #
+            gombalan = ["gombal", "rayu", "baper", "gombalin", "baperin", "gombalan", "rayuan"] #kata yg diperkirakan dimasukkan
+            if any(x in self.message for x in gombalan) and "wanda" in self.message: #cek kata
+                list_gombal = [
+                    "Sedang apa? Hari ini jika sehat berkenan lebih lama bersemayam di tubuh kita, maukah kau berkencan bersamaku? Hanya kita, berdua?", 
+                    "Aku mengenalmu tanpa sengaja, lalu menyayangimu secara tiba-tiba, namun sayang belum jadi siapa-siapa, mungkin nanti atau esok?",
+                    "Kamu sejenis keyboard ya? soalnya you are my type", 
+                    "Kamu kenal iwan ga? bukan iwan fals, Iwan to be your boyfriend",
+                    "Kamu isi pulpen ya? soalnya aku Tinta sama kamu", 
+                    "Kamu tau bedanya kamu sama rumah hantu ga? Kalau rumah hantu sarang hantu, kalau kamu sarangheo",
+                    "muka kamu kek pantun ya? soalnya cakep!!!", 
+                    "Dijalan ada lampu, Dikuburan ada hantu, Dikerajaan ada ratu, dihatiku ada kamu", 
+                    "Ada dua kata buat kamu, aku sayang kamu, karena aku dan kamu itukan satu",
+                    "Kamu tau buah kan? aku suka buah apel, karena apel lah arti hidupku tanpa kamu",
+                    "Tau gak, kenapa kalau belajar terus ngapal liatnya keatas? karena kalau merem langsung kebayang muka kamu",
+                    "Kalo deket denganmu aku keringetan tapi kalo jauh denganmu aku jadi keingetan",
+                    "Bambu bisa gantiin kayu, sendal bisa gantiin sepatu, tapi 1 hal yang harus kamu tau, gak akan ada yang bisa gantiin kamu",
+                    "Berusaha melupakanmu sama sulitnya dengan mengingat seseorang yang tak pernah kukenal, karena dari aku kecil aku diajarin menghapal bukan melupakan",  
+                ]
+                gombal = random.choice(list_gombal)
+                self.typeAndSendMessage(gombal)
+
+
         except Exception as e:
             print(e)
             print("No Message..")
