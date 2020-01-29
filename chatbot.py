@@ -346,23 +346,23 @@ class Chatbot(object):
                 self.typeAndSendMessage(joke)
 
             # santuy #
-            if "salam" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("assalamualaikum")
-
-            if "assalamualaikum" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("waalaikumsalam")
-
-            if "gimana kabarmu?" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("Saya baik-baik saja kok kak :-)")
-
-            if "siapa yang menciptakan kamu?" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("Tim IRC kakak, mereka hebat-hebat makanya sekarang wanda menjadi pintar :-)")
-
-            if "aku cape" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("jangan lupa makan dan istrahat ya kakak :-)")
-
-            if "sampurasun" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("Rampes")
+            # if "salam" in self.message and "wanda" in self.message:
+            #     self.typeAndSendMessage("assalamualaikum")
+            #
+            # if "assalamualaikum" in self.message and "wanda" in self.message:
+            #     self.typeAndSendMessage("waalaikumsalam")
+            #
+            # if "gimana kabarmu?" in self.message and "wanda" in self.message:
+            #     self.typeAndSendMessage("Saya baik-baik saja kok kak :-)")
+            #
+            # if "siapa yang menciptakan kamu?" in self.message and "wanda" in self.message:
+            #     self.typeAndSendMessage("Tim IRC kakak, mereka hebat-hebat makanya sekarang wanda menjadi pintar :-)")
+            #
+            # if "aku cape" in self.message and "wanda" in self.message:
+            #     self.typeAndSendMessage("jangan lupa makan dan istrahat ya kakak :-)")
+            #
+            # if "sampurasun" in self.message and "wanda" in self.message:
+            #     self.typeAndSendMessage("Rampes")
 
             #teka-teki#
             teka_teki = ["teka-teki", "main"]
