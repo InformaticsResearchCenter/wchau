@@ -325,6 +325,7 @@ class Chatbot(object):
                 ]
                 marah = random.choice(balesan)
                 self.typeAndSendMessage(marah)
+
             #formal
             if "selamat" in self.message and "siang" in self.message and "wanda" in self.message:
                 self.typeAndSendMessage("iya, selamat siang :-)")
@@ -357,18 +358,23 @@ class Chatbot(object):
                 self.typeAndSendMessage(joke)
 
             # santuy #
-            if "salam" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("assalamualaikum")
-			if "assalamualaikum" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("waalaikumsalam")
-			if "gimana kabarmu?" in self.massage and "wanda" in self.massage:
-                self.typeAndSendMessage("Saya baik-baik saja kok kak :-)") and self.typeAndSendMessage("apakah kakak juga baik?")
-			if "siapa yang menciptakan kamu?" in self.massage and "wanda" in self.massage:
-                self.typeAndSendMessage("Tim IRC kakak, mereka hebat-hebat makanya sekarang wanda menjadi pintar :-)")
-			if "aku cape" in self.massage and "wanda" in self.massage:
-                self.typeAndSendMessage("jangan lupa makan dan istrahat ya kakak :-)")
-			if "sampurasun" in self.massage and "wanda" in self.massage:
-                self.typeAndSendMessage("Rampes")
+            # if "salam" in self.message and "wanda" in self.message:
+            #     self.typeAndSendMessage("assalamualaikum")
+            #
+            # if "assalamualaikum" in self.message and "wanda" in self.message:
+            #     self.typeAndSendMessage("waalaikumsalam")
+            #
+            # if "gimana kabarmu?" in self.message and "wanda" in self.message:
+            #     self.typeAndSendMessage("Saya baik-baik saja kok kak :-)")
+            #
+            # if "siapa yang menciptakan kamu?" in self.message and "wanda" in self.message:
+            #     self.typeAndSendMessage("Tim IRC kakak, mereka hebat-hebat makanya sekarang wanda menjadi pintar :-)")
+            #
+            # if "aku cape" in self.message and "wanda" in self.message:
+            #     self.typeAndSendMessage("jangan lupa makan dan istrahat ya kakak :-)")
+            #
+            # if "sampurasun" in self.message and "wanda" in self.message:
+            #     self.typeAndSendMessage("Rampes")
 
             #teka-teki#
             teka_teki = ["teka-teki", "main"]
@@ -572,7 +578,7 @@ class Chatbot(object):
         self.driver.find_element_by_css_selector("span[data-icon='clip']").click()
         sleep(2)
 
-        path = r"C:\Users\trian\Downloads"
+        path = r"C:\Users\rolly\Downloads"
         nameFile = filePath + ".jpeg"
 
         result = os.path.join(path, nameFile)
@@ -587,7 +593,7 @@ class Chatbot(object):
         self.driver.find_element_by_css_selector("span[data-icon='clip']").click()
         sleep(2)
 
-        path = r"C:\Users\trian\Downloads"
+        path = r"C:\Users\rolly\Downloads"
         nameFile = "wanda.png"
 
         result = os.path.join(path, nameFile)
@@ -609,7 +615,7 @@ class Chatbot(object):
         sleep(1)
 
     def deletePicture(self):
-        dir_name = "/Users/trian/Downloads/"
+        dir_name = "/Users/rolly/Downloads/"
         list = os.listdir(dir_name)
 
         for item in list:
@@ -639,7 +645,7 @@ class Chatbot(object):
         return name
 
     def renamePicture(self, fileName):
-        dir_name = "/Users/trian/Downloads/"
+        dir_name = "/Users/rolly/Downloads/"
         list = os.listdir(dir_name)
 
         print(list)
@@ -668,7 +674,7 @@ class Chatbot(object):
         for i in model.getUnconnectedOutLayers():
             outputLayer.append(layerNames[i[0] - 1])
 
-        path = r"C:\Users\trian\Downloads"
+        path = r"C:\Users\rolly\Downloads"
         nameFile = fileName + ".jpeg"
 
         result = os.path.join(path, nameFile)
@@ -738,7 +744,7 @@ class Chatbot(object):
             "Tri Angga D.S"
         ]
 
-        path = r"C:\Users\trian\Downloads"
+        path = r"C:\Users\rolly\Downloads"
         nameFile = fileName + ".jpeg"
 
         result = os.path.join(path, nameFile)
