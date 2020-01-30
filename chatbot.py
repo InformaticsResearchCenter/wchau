@@ -617,7 +617,7 @@ class Chatbot(object):
         self.driver.find_element_by_css_selector("span[data-icon='clip']").click()
         sleep(2)
 
-        path = r"C:\Users\rolly\Downloads"
+        path = r"C:\Users\trian\Downloads"
         nameFile = filePath + ".jpeg"
 
         result = os.path.join(path, nameFile)
@@ -633,7 +633,7 @@ class Chatbot(object):
         self.driver.find_element_by_css_selector("span[data-icon='clip']").click()
         sleep(2)
 
-        path = r"C:\Users\rolly\Downloads"
+        path = r"C:\Users\trian\Downloads"
         nameFile = ["wanda.jpeg", "wanda1.jpeg", "wanda2.jpeg", "wanda3.jpeg"]
 
         namaFile = random.choice(nameFile)
@@ -651,9 +651,9 @@ class Chatbot(object):
         self.driver.find_element_by_css_selector("span[data-icon='clip']").click()
         sleep(2)
 
-        path = r"C:\Users\rolly\Downloads"
+        path = r"C:\Users\trian\Downloads"
 
-        if "ngedance" in self.message and "wanda" in self.message:
+        if "ngedance" in self.message and "wanda" in self.message or "dance" in self.message or "nari" in self.message:
             nameFile = ["wanda.mp4", "ngedance1.mp4", "ngedance2.mp4"]
             namaFile = random.choice(nameFile)
         if "nyanyi" in self.message and "wanda" in self.message:
@@ -684,7 +684,7 @@ class Chatbot(object):
         sleep(1)
 
     def deletePicture(self):
-        dir_name = "/Users/rolly/Downloads/"
+        dir_name = "/Users/trian/Downloads/"
         list = os.listdir(dir_name)
 
         for item in list:
@@ -714,7 +714,7 @@ class Chatbot(object):
         return name
 
     def renamePicture(self, fileName):
-        dir_name = "/Users/rolly/Downloads/"
+        dir_name = "/Users/trian/Downloads/"
         list = os.listdir(dir_name)
 
         print(list)
@@ -743,7 +743,7 @@ class Chatbot(object):
         for i in model.getUnconnectedOutLayers():
             outputLayer.append(layerNames[i[0] - 1])
 
-        path = r"C:\Users\rolly\Downloads"
+        path = r"C:\Users\trian\Downloads"
         nameFile = fileName + ".jpeg"
 
         result = os.path.join(path, nameFile)
@@ -813,7 +813,7 @@ class Chatbot(object):
             "Tri Angga D.S"
         ]
 
-        path = r"C:\Users\rolly\Downloads"
+        path = r"C:\Users\trian\Downloads"
         nameFile = fileName + ".jpeg"
 
         result = os.path.join(path, nameFile)
