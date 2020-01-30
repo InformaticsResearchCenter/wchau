@@ -5,6 +5,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from oauth2client.service_account import ServiceAccountCredentials
 from dateutil.parser import parse
+from time import sleep
+from googletrans import Translator
 import datetime
 import face_recognition
 import cv2
@@ -13,8 +15,7 @@ import gspread
 import os
 import dawet
 import random
-from time import sleep
-from googletrans import Translator
+import subprocess
 
 class Chatbot(object):
     # def __init__(self, filename):
@@ -170,6 +171,8 @@ class Chatbot(object):
             self.spanLower = self.span.lower()
 
             self.message = self.splitString(self.spanLower)
+
+            subprocess.Popen(["python", "logmessage.py", self.listToString(self.message)], self.getName())
 
             if "wanda" in self.message:
                 list_jawaban = ["iyaaaaaa :-D", "iya, kenapa?", "iya, butuh bantuan?"]
@@ -838,5 +841,3 @@ class Chatbot(object):
         self.saveProfile()
         self.driver.get("https://web.whatsapp.com/")
         self.waitLogin()
-
-    #===========================COBA DLU GENGS
