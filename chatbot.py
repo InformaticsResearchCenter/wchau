@@ -653,7 +653,7 @@ class Chatbot(object):
 
         path = r"C:\Users\rolly\Downloads"
 
-        if "ngedance" in self.message and "wanda" in self.message:
+        if "ngedance" in self.message and "wanda" in self.message or "dance" in self.message or "nari" in self.message:
             nameFile = ["wanda.mp4", "ngedance1.mp4", "ngedance2.mp4"]
             namaFile = random.choice(nameFile)
         if "nyanyi" in self.message and "wanda" in self.message:
