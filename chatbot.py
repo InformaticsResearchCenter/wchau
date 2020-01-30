@@ -176,11 +176,9 @@ class Chatbot(object):
                 jawaban = random.choice(list_jawaban)
                 self.typeAndSendMessage(jawaban)
 
-            if "wanda" in self.message and "info" in self.message:
+            if "wanda" in self.message and "perkenalkan" in self.message or "kenalan" in self.message:
                 self.sendPictureWithoutPhoneNumber()
-                self.typeAndSendMessage("Halo, perkenalkan Nama aku wanda, Rumah aku di Jl Sariasih No. 54 Bandung, Aku sekolah di IRC")
-                self.typeAndSendMessage("fotonya hanya contoh ya teman-teman, biar ga kena copyright, sebenernya wanda cantik kok <3")
-
+                self.typeAndSendMessage("Halo, perkenalkan Nama aku wanda, Aku seorang mahasiswi poltekpos, Salam kenal ya")
 
             if "terima" in self.message and "kasih" in self.message and "wanda" in self.message:
                 self.typeAndSendMessage("sama sama :-)")
@@ -293,10 +291,10 @@ class Chatbot(object):
                 print(objectnames)
                 if objectnames != "":
                     self.typeAndSendMessage(
-                        "Digambar yang kamu kirim wanda bisa menemukan objek, objeknya yaitu " + objectnames)
+                        "Digambar yang kamu kirim wanda lihat ada " + objectnames)
                 else:
                     self.typeAndSendMessage(
-                        "ihhhh, wanda gak tau ada objek apa aja digambar yang kamu kirimin, maaf ya, coba kirimin gambar yang lebih jelas")
+                        "ihhhh, wanda gak tau ada apa aja digambar yang kamu kirimin, maaf ya, coba kirimin gambar yang lebih jelas")
 
             if "face" in self.message:
                 sleep(1)
@@ -404,6 +402,21 @@ class Chatbot(object):
                 tekateki = random.choice(list_tekateki)
                 self.typeAndSendMessage(tekateki)
 
+            # hiburan
+            if "wanda" in self.message and "hibur" in self.message or "hiburan" in self.message:
+                self.typeAndSendMessage("Boleh, mau lihat wanda ngedance atau nyanyi?")
+
+            if "wanda" in self.message and "ngedance" in self.message or "dance" in self.message or "nari" in self.message:
+                self.typeAndSendMessage("tunggu sebentar ya, wanda rekaman dulu")
+                self.sendVideoWithoutPhoneNumber()
+
+            if "wanda" in self.message and "nyanyi" in self.message or "menyanyi" in self.message:
+                self.typeAndSendMessage("tunggu sebentar ya, wanda rekaman dulu")
+                self.sendVideoWithoutPhoneNumber()
+
+            if "wanda" in self.message and "gaya" in self.message and "imutnya" in self.message:
+                self.typeAndSendMessage("bentar ya, rekaman dulu")
+                self.sendVideoWithoutPhoneNumber()
 
             # gombalan #
             gombalan = ["gombal", "rayu", "baper", "gombalin", "baperin", "gombalan", "rayuan"] #kata yg diperkirakan dimasukkan
@@ -615,19 +628,49 @@ class Chatbot(object):
         self.driver.find_element_by_css_selector("span[data-icon='send-light").click()
         sleep(1)
 
+    #change wanda photo
     def sendPictureWithoutPhoneNumber(self):
         self.driver.find_element_by_css_selector("span[data-icon='clip']").click()
         sleep(2)
 
         path = r"C:\Users\rolly\Downloads"
-        nameFile = "wanda.png"
+        nameFile = ["wanda.jpeg", "wanda1.jpeg", "wanda2.jpeg", "wanda3.jpeg"]
 
-        result = os.path.join(path, nameFile)
+        namaFile = random.choice(nameFile)
+
+        result = os.path.join(path, namaFile)
 
         self.driver.find_element_by_css_selector("input[type='file']").send_keys(result)
         sleep(1)
 
         self.driver.find_element_by_css_selector("span[data-icon='send-light").click()
+        sleep(1)
+
+    #add video hiburan wanda
+    def sendVideoWithoutPhoneNumber(self):
+        self.driver.find_element_by_css_selector("span[data-icon='clip']").click()
+        sleep(2)
+
+        path = r"C:\Users\rolly\Downloads"
+
+        if "ngedance" in self.message and "wanda" in self.message:
+            nameFile = ["wanda.mp4", "ngedance1.mp4", "ngedance2.mp4"]
+            namaFile = random.choice(nameFile)
+        if "nyanyi" in self.message and "wanda" in self.message:
+            namaFile = "nyanyi.mp4"
+        if "imutnya" in self.message and "wanda" in self.message and "gaya" in self.message:
+            nameFile = ["imut1.mp4", "imut2.mp4"]
+            namaFile = random.choice(nameFile)
+
+        result = os.path.join(path, namaFile)
+
+        self.driver.find_element_by_css_selector("input[type='file']").send_keys(result)
+        sleep(1)
+
+        self.driver.find_element_by_css_selector("span[data-icon='send-light").click()
+        sleep(1)
+
+        self.driver.find_element_by_class_name("_1g8sv NOJWi").click()
         sleep(1)
 
     def retrievePicture(self):
