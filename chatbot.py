@@ -172,7 +172,7 @@ class Chatbot(object):
 
             self.message = self.splitString(self.spanLower)
 
-            subprocess.Popen(["python", "logmessage.py", self.listToString(self.message)], self.getName())
+            subprocess.Popen(["python", "logmessage.py", self.listToString(self.message), self.getName()])
 
             if "wanda" in self.message:
                 list_jawaban = ["iyaaaaaa :-D", "iya, kenapa?", "iya, butuh bantuan?"]
