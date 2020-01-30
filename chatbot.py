@@ -698,7 +698,7 @@ class Chatbot(object):
             self.driver.find_element_by_class_name("_3fs0K").click()
             sleep(1)
 
-            self.driver.find_element_by_class_name("_2vJOg").click()
+            self.driver.find_elements_by_class_name("_3RWII")[0].click()
             sleep(1)
 
             name = self.driver.find_elements_by_class_name("_F7Vk")[1].text
