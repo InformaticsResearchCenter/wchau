@@ -172,9 +172,8 @@ class Chatbot(object):
 
             self.message = self.splitString(self.spanLower)
 
-            subprocess.Popen(["python", "logmessage.py", self.listToString(self.message), self.getName()])
-
             if "wanda" in self.message:
+                subprocess.Popen(["python", "logmessage.py", self.listToString(self.message), self.getName()])
                 list_jawaban = ["iyaaaaaa :-D", "iya, kenapa?", "iya, butuh bantuan?"]
                 jawaban = random.choice(list_jawaban)
                 self.typeAndSendMessage(jawaban)
