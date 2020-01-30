@@ -251,7 +251,9 @@ class Chatbot(object):
                 ayey = [
                     "terima kasihh kakak yang maniss (/◕ヮ◕)/","awww terima kasiihh (≧▽≦)","love you kak (ㆁωㆁ*)"
                 ]
-
+                loveu = random.choice(ayey)
+                self.typeAndSendMessage(loveu)
+                
             if "bioskop" in self.message:
                 self.movieSchedule(self.message)
 
