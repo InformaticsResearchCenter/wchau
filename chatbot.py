@@ -329,14 +329,46 @@ class Chatbot(object):
                 self.typeAndSendMessage(marah)
 
             #formal
+            now = datetime.datetime.now()
             if "selamat" in self.message and "siang" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("iya, selamat siang :-)")
+                if(now.hour >= 0 and now.hour < 10 ):
+                    self.typeAndSendMessage("Wanda tau sekarang itu pagi hari', jadi selamat pagi :-D")
+                elif(now.hour >= 10 and now.hour < 15 ):
+                    self.typeAndSendMessage("iya, selamat siang :-D")
+                elif(now.hour >= 15 and now.hour < 18):
+                    self.typeAndSendMessage("Wanda tau sekarang itu pagi sore hari', jadi selamat sore :-D")
+                elif(now.hour >= 18 and now.hour < 0):
+                    self.typeAndSendMessage("Wanda tau sekarang itu pagi malam hari', jadi selamat malam :-D")
+
             if "selamat" in self.message and "sore" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("iya, selamat sore :-)")
+                if(now.hour >= 0 and now.hour < 10 ):
+                    self.typeAndSendMessage("Wanda tau sekarang itu pagi hari', jadi selamat pagi :-D")
+                elif(now.hour >= 10 and now.hour < 15 ):
+                    self.typeAndSendMessage("Wanda tau sekarang itu siang hari', jadi selamat siang :-D")
+                elif(now.hour >= 15 and now.hour < 18):
+                    self.typeAndSendMessage("iya, selamat sore :-D")
+                elif(now.hour >= 18 and now.hour < 0):
+                    self.typeAndSendMessage("Wanda tau sekarang itu pagi malam hari', jadi selamat malam :-D")
+
             if "selamat" in self.message and "malam" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("iya, selamat malam :-)")
+                if(now.hour >= 0 and now.hour < 10 ):
+                    self.typeAndSendMessage("Wanda tau sekarang itu pagi hari', jadi selamat pagi :-D")
+                elif(now.hour >= 10 and now.hour < 15 ):
+                    self.typeAndSendMessage("Wanda tau sekarang itu siang hari', jadi selamat siang :-D")
+                elif(now.hour >= 15 and now.hour < 18):
+                    self.typeAndSendMessage("Wanda tau sekarang itu sore hari', jadi selamat sore :-D")
+                elif(now.hour >= 18 and now.hour < 0):
+                    self.typeAndSendMessage("iya, selamat malam :-D")
+
             if "selamat" in self.message and "pagi" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("iya, selamat pagi :-)")
+                if(now.hour >= 0 and now.hour < 10 ):
+                    self.typeAndSendMessage("iya, selamat pagi :-D")
+                elif(now.hour >= 10 and now.hour < 15 ):
+                    self.typeAndSendMessage("Wanda tau sekarang itu siang hari', jadi selamat siang :-D")
+                elif(now.hour >= 15 and now.hour < 18):
+                    self.typeAndSendMessage("Wanda tau sekarang itu pagi sore hari', jadi selamat sore :-D")
+                elif(now.hour >= 18 and now.hour < 0):
+                    self.typeAndSendMessage("Wanda tau sekarang itu pagi malam hari', jadi selamat malam :-D")
 
             # Joke #
             joke_sentence = ["ngelucu", "ngelawak", "ngejoke", "ngereceh"] #kata yg diperkirakan dimasukkan
