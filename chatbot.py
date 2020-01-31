@@ -160,332 +160,334 @@ class Chatbot(object):
             self.driver.find_elements_by_class_name('_2eK7W')[1].click()
 
     def cekAndSendMessage(self):
-        try:
+        self.spancek = ""
+        while True:
             try:
-                self.chat = self.driver.find_elements_by_class_name("P6z4j")[0]
-                self.chat.click()
-                self.chat.click()
-                self.chat.click()
-            except:
-                print('skip data')
-
-            sleep(0.5)
-
-            self.span = self.driver.find_elements_by_xpath('(.//span)')[-11].text
-
-            if self.spancek != self.span:
-                subprocess.Popen(["python", "logmessage.py", self.listToString(self.message), self.getName()])
-
-            self.spanLower = self.span.lower()
-
-            self.message = self.splitString(self.spanLower)
-
-            if "wanda" in self.message:
-                list_jawaban = ["iyaaaaaa :-D", "iya, kenapa?", "iya, butuh bantuan?"]
-                jawaban = random.choice(list_jawaban)
-                self.typeAndSendMessage(jawaban)
-
-            if "wanda" in self.message and "perkenalkan" in self.message or "kenalan" in self.message:
-                self.sendPictureWithoutPhoneNumber()
-                self.typeAndSendMessage("Halo, perkenalkan Nama aku wanda, Aku seorang mahasiswi poltekpos, Salam kenal ya")
-
-            if "terima" in self.message and "kasih" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("sama sama :-)")
-
-            if "nuhun" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("sami sami :-D")
-
-            if "makasih" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("yoi, cama-cama")
-
-            if "pintar" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("Oo, iya dong, makasih atas pujiannya")
-
-            if "ngeselin" in self.message or "kesal" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("hmm, maaf ya kalo wanda ada salah sama kamu")
-
-            if "beliin" in self.message and "rokok" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("bukannya wanda gak mau beliin, tapi rokok itu gak baik buat kesehatan, lebih baik rokoknya diganti sama wanda aja gimana?")
-
-            if "centil" in self.message or "nakal" in self.message and "wanda" in self.message:
-                lst_jawaban = ["emang kenapa? ada masalah?", "trus? masalah buat kamu?"]
-                answer = random.choice(lst_jawaban)
-                self.typeAndSendMessage(answer)
-
-            if "sidang" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("ok, tunggu sebentar ya :-D")
-                getIndex = self.message.index("sidang")
                 try:
-                    jadwal = self.cekJadwalSidang(self.message[getIndex+1])
-                    jadwal.pop(0)
-                    jadwal.pop(0)
-
-                    if jadwal == "no_pilihan":
-                        self.typeAndSendMessage("pilihan salah")
-                    else:
-                        for i in jadwal:
-                            self.typeAndSendMessage("NPM: "+i[0]+", Nama: "+i[1]+", Penguji utama: "+i[2]+", Penguji pendamping: "+i[3]+", Jam: "+i[5]+", Lokasi: "+i[6])
+                    self.chat = self.driver.find_elements_by_class_name("P6z4j")[0]
+                    self.chat.click()
+                    self.chat.click()
+                    self.chat.click()
                 except:
-                    self.typeAndSendMessage("jadwal sidang "+self.message[getIndex+1]+" tidak ada")
+                    print('skip data')
 
-            if "nilai" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("sip, ti antosan sakeudap :-)")
-                getIndex = self.message.index("nilai")
+                sleep(0.5)
 
-                npm = self.message[getIndex+1]
-                pertemuan = self.message[getIndex+2]
-                hasil = self.getNilaiMahasiswa(npm, pertemuan)
+                self.span = self.driver.find_elements_by_xpath('(.//span)')[-11].text
 
-                if hasil == "invalid":
-                    self.typeAndSendMessage("maaf npmnya ga wanda temuin :'-(, mungkin npmnya salah, coba dicek lagi deh :-)")
-                elif hasil == "pertemuan_invalid":
-                    self.typeAndSendMessage("format salah, contoh: pertemuan1")
-                else:
-                    self.typeAndSendMessage("NPM: "+npm+", Nama: "+hasil[1]+", Nilai: "+hasil[0]+", Nilai rata-rata: "+hasil[2])
+                if self.spancek != self.span:
+                    subprocess.Popen(["python", "logmessage.py", self.listToString(self.message), self.getName()])
+
+                self.spanLower = self.span.lower()
+
+                self.message = self.splitString(self.spanLower)
+
+                if "wanda" in self.message:
+                    list_jawaban = ["iyaaaaaa :-D", "iya, kenapa?", "iya, butuh bantuan?"]
+                    jawaban = random.choice(list_jawaban)
+                    self.typeAndSendMessage(jawaban)
+
+                if "wanda" in self.message and "perkenalkan" in self.message or "kenalan" in self.message:
+                    self.sendPictureWithoutPhoneNumber()
+                    self.typeAndSendMessage("Halo, perkenalkan Nama aku wanda, Aku seorang mahasiswi poltekpos, Salam kenal ya")
+
+                if "terima" in self.message and "kasih" in self.message and "wanda" in self.message:
+                    self.typeAndSendMessage("sama sama :-)")
+
+                if "nuhun" in self.message and "wanda" in self.message:
+                    self.typeAndSendMessage("sami sami :-D")
+
+                if "makasih" in self.message and "wanda" in self.message:
+                    self.typeAndSendMessage("yoi, cama-cama")
+
+                if "pintar" in self.message and "wanda" in self.message:
+                    self.typeAndSendMessage("Oo, iya dong, makasih atas pujiannya")
+
+                if "ngeselin" in self.message or "kesal" in self.message and "wanda" in self.message:
+                    self.typeAndSendMessage("hmm, maaf ya kalo wanda ada salah sama kamu")
+
+                if "beliin" in self.message and "rokok" in self.message and "wanda" in self.message:
+                    self.typeAndSendMessage("bukannya wanda gak mau beliin, tapi rokok itu gak baik buat kesehatan, lebih baik rokoknya diganti sama wanda aja gimana?")
+
+                if "centil" in self.message or "nakal" in self.message and "wanda" in self.message:
+                    lst_jawaban = ["emang kenapa? ada masalah?", "trus? masalah buat kamu?"]
+                    answer = random.choice(lst_jawaban)
+                    self.typeAndSendMessage(answer)
+
+                if "sidang" in self.message and "wanda" in self.message:
+                    self.typeAndSendMessage("ok, tunggu sebentar ya :-D")
+                    getIndex = self.message.index("sidang")
+                    try:
+                        jadwal = self.cekJadwalSidang(self.message[getIndex+1])
+                        jadwal.pop(0)
+                        jadwal.pop(0)
+
+                        if jadwal == "no_pilihan":
+                            self.typeAndSendMessage("pilihan salah")
+                        else:
+                            for i in jadwal:
+                                self.typeAndSendMessage("NPM: "+i[0]+", Nama: "+i[1]+", Penguji utama: "+i[2]+", Penguji pendamping: "+i[3]+", Jam: "+i[5]+", Lokasi: "+i[6])
+                    except:
+                        self.typeAndSendMessage("jadwal sidang "+self.message[getIndex+1]+" tidak ada")
+
+                if "nilai" in self.message and "wanda" in self.message:
+                    self.typeAndSendMessage("sip, ti antosan sakeudap :-)")
+                    getIndex = self.message.index("nilai")
+
+                    npm = self.message[getIndex+1]
+                    pertemuan = self.message[getIndex+2]
+                    hasil = self.getNilaiMahasiswa(npm, pertemuan)
+
+                    if hasil == "invalid":
+                        self.typeAndSendMessage("maaf npmnya ga wanda temuin :'-(, mungkin npmnya salah, coba dicek lagi deh :-)")
+                    elif hasil == "pertemuan_invalid":
+                        self.typeAndSendMessage("format salah, contoh: pertemuan1")
+                    else:
+                        self.typeAndSendMessage("NPM: "+npm+", Nama: "+hasil[1]+", Nilai: "+hasil[0]+", Nilai rata-rata: "+hasil[2])
 
 
-            if "love" in self.message and "wanda" in self.message:
-                self.typeAndSendMessage("love you too <3")
-            
-            if "aku" in self.message and "cantik" in self.message and "wanda" in self.message:
-                ihuy = [
-                    "iya kamu cantik bangeett deehh (^o^)", "iya kamu cantik tapi masih cantikan akuu hehehe"
-                    ,"iyaa zheyengg"
-                ]
-                love = random.choice(ihuy)
-                self.typeAndSendMessage(love)
-            if "kamu" in self.message and "cantik" in self.message and "wanda" in self.message:
-                ayey = [
-                    "terima kasihh kakak yang maniss (/◕ヮ◕)/","awww terima kasiihh (≧▽≦)","love you kak (ㆁωㆁ*)"
-                ]
-                loveu = random.choice(ayey)
-                self.typeAndSendMessage(loveu)
-                
-            if "bioskop" in self.message:
-                self.movieSchedule(self.message)
+                if "love" in self.message and "wanda" in self.message:
+                    self.typeAndSendMessage("love you too <3")
 
-            if "perhutani" in self.message:
-                self.perhutani()
+                if "aku" in self.message and "cantik" in self.message and "wanda" in self.message:
+                    ihuy = [
+                        "iya kamu cantik bangeett deehh (^o^)", "iya kamu cantik tapi masih cantikan akuu hehehe"
+                        ,"iyaa zheyengg"
+                    ]
+                    love = random.choice(ihuy)
+                    self.typeAndSendMessage(love)
+                if "kamu" in self.message and "cantik" in self.message and "wanda" in self.message:
+                    ayey = [
+                        "terima kasihh kakak yang maniss (/◕ヮ◕)/","awww terima kasiihh (≧▽≦)","love you kak (ㆁωㆁ*)"
+                    ]
+                    loveu = random.choice(ayey)
+                    self.typeAndSendMessage(loveu)
 
-            if "gmaps" in self.message:
-                self.message.pop(0)
-                desti2 = self.listToString(self.message)
-                self.gmaps(desti2)
+                if "bioskop" in self.message:
+                    self.movieSchedule(self.message)
 
-            if "foto" in self.message:
-                sleep(1)
-                name = self.getName()
-                sleep(1)
-                self.retrievePicture()
-                sleep(1)
-                self.renamePicture(name)
-                sleep(1)
-                self.sendPictureWithPhoneNumber(self.message[1], name)
-                sleep(1)
-                self.deletePicture()
-                sleep(1)
+                if "perhutani" in self.message:
+                    self.perhutani()
 
-            if "gambar" in self.message:
-                sleep(1)
-                name = self.getName()
-                sleep(1)
-                self.retrievePicture()
-                sleep(1)
-                self.renamePicture(name)
-                sleep(1)
-                objectnames = self.listToString(self.loadYolo(self.cocoNamesLoad(), name))
-                sleep(1)
-                self.deletePicture()
-                sleep(1)
-                print(objectnames)
-                if objectnames != "":
-                    self.typeAndSendMessage(
-                        "Digambar yang kamu kirim wanda lihat ada " + objectnames)
-                else:
-                    self.typeAndSendMessage(
-                        "ihhhh, wanda gak tau ada apa aja digambar yang kamu kirimin, maaf ya, coba kirimin gambar yang lebih jelas")
+                if "gmaps" in self.message:
+                    self.message.pop(0)
+                    desti2 = self.listToString(self.message)
+                    self.gmaps(desti2)
 
-            if "face" in self.message:
-                sleep(1)
-                name = self.getName()
-                sleep(1)
-                self.retrievePicture()
-                sleep(1)
-                self.renamePicture(name)
-                sleep(1)
-                faceNames = self.listToString(self.faceRecognition(name))
-                sleep(1)
-                self.deletePicture()
-                sleep(1)
-                if faceNames != "":
-                    self.typeAndSendMessage("Difoto yang kamu kirimin wanda bisa menemukan foto kak " + faceNames)
-                else:
-                    self.typeAndSendMessage("Foto siapa ntuh, gak kenal ih")
-                sleep(1)
+                if "foto" in self.message:
+                    sleep(1)
+                    name = self.getName()
+                    sleep(1)
+                    self.retrievePicture()
+                    sleep(1)
+                    self.renamePicture(name)
+                    sleep(1)
+                    self.sendPictureWithPhoneNumber(self.message[1], name)
+                    sleep(1)
+                    self.deletePicture()
+                    sleep(1)
 
-            # bully #
-            rage_sentence = ["bodoh", "jelek", "anjing", "bangsat", "bego", "tolol", "idiot", "bau"] #kata yg diperkirakan dimasukkan
-            if any(x in self.message for x in rage_sentence) and "wanda" in self.message: #cek kata
-                balesan = [
-                    "Ya allah Tolongin Baim Ya allah (ಥ﹏ಥ)", "Kok kamu jahat bIiinNNNnngggGGHHiitzzz sich sama aku zheyeng ('・ω・')",
-                    "Tak ada manusia yang terlahir \ndi download \n(´-﹏-`；)", "Ya Maaf (ಥ﹏ಥ)", "sudah cukup rhoma (｡ŏ﹏ŏ)",
-                    "rangga yang kamu lakukan ke saya itu \n JAHAT \n(;´༎ຶД༎ຶ`)", "Kamu belom pernah liat aku marah yaaahhh!!! (；･`д･´)",
-                    "Bumi ini aja aku pijak \napalagi kepala kau \n(；･`д･´)"
-                ]
-                marah = random.choice(balesan)
-                self.typeAndSendMessage(marah)
+                if "gambar" in self.message:
+                    sleep(1)
+                    name = self.getName()
+                    sleep(1)
+                    self.retrievePicture()
+                    sleep(1)
+                    self.renamePicture(name)
+                    sleep(1)
+                    objectnames = self.listToString(self.loadYolo(self.cocoNamesLoad(), name))
+                    sleep(1)
+                    self.deletePicture()
+                    sleep(1)
+                    print(objectnames)
+                    if objectnames != "":
+                        self.typeAndSendMessage(
+                            "Digambar yang kamu kirim wanda lihat ada " + objectnames)
+                    else:
+                        self.typeAndSendMessage(
+                            "ihhhh, wanda gak tau ada apa aja digambar yang kamu kirimin, maaf ya, coba kirimin gambar yang lebih jelas")
 
-            #formal
-            now = datetime.datetime.now()
-            if "selamat" in self.message and "siang" in self.message and "wanda" in self.message:
-                if(now.hour >= 0 and now.hour < 10 ):
-                    self.typeAndSendMessage("Wanda tau sekarang itu pagi hari', jadi selamat pagi :-D")
-                elif(now.hour >= 10 and now.hour < 15 ):
-                    self.typeAndSendMessage("iya, selamat siang :-D")
-                elif(now.hour >= 15 and now.hour < 18):
-                    self.typeAndSendMessage("Wanda tau sekarang itu pagi sore hari', jadi selamat sore :-D")
-                elif(now.hour >= 18 and now.hour < 0):
-                    self.typeAndSendMessage("Wanda tau sekarang itu pagi malam hari', jadi selamat malam :-D")
+                if "face" in self.message:
+                    sleep(1)
+                    name = self.getName()
+                    sleep(1)
+                    self.retrievePicture()
+                    sleep(1)
+                    self.renamePicture(name)
+                    sleep(1)
+                    faceNames = self.listToString(self.faceRecognition(name))
+                    sleep(1)
+                    self.deletePicture()
+                    sleep(1)
+                    if faceNames != "":
+                        self.typeAndSendMessage("Difoto yang kamu kirimin wanda bisa menemukan foto kak " + faceNames)
+                    else:
+                        self.typeAndSendMessage("Foto siapa ntuh, gak kenal ih")
+                    sleep(1)
 
-            if "selamat" in self.message and "sore" in self.message and "wanda" in self.message:
-                if(now.hour >= 0 and now.hour < 10 ):
-                    self.typeAndSendMessage("Wanda tau sekarang itu pagi hari', jadi selamat pagi :-D")
-                elif(now.hour >= 10 and now.hour < 15 ):
-                    self.typeAndSendMessage("Wanda tau sekarang itu siang hari', jadi selamat siang :-D")
-                elif(now.hour >= 15 and now.hour < 18):
-                    self.typeAndSendMessage("iya, selamat sore :-D")
-                elif(now.hour >= 18 and now.hour < 0):
-                    self.typeAndSendMessage("Wanda tau sekarang itu pagi malam hari', jadi selamat malam :-D")
+                # bully #
+                rage_sentence = ["bodoh", "jelek", "anjing", "bangsat", "bego", "tolol", "idiot", "bau"] #kata yg diperkirakan dimasukkan
+                if any(x in self.message for x in rage_sentence) and "wanda" in self.message: #cek kata
+                    balesan = [
+                        "Ya allah Tolongin Baim Ya allah (ಥ﹏ಥ)", "Kok kamu jahat bIiinNNNnngggGGHHiitzzz sich sama aku zheyeng ('・ω・')",
+                        "Tak ada manusia yang terlahir \ndi download \n(´-﹏-`；)", "Ya Maaf (ಥ﹏ಥ)", "sudah cukup rhoma (｡ŏ﹏ŏ)",
+                        "rangga yang kamu lakukan ke saya itu \n JAHAT \n(;´༎ຶД༎ຶ`)", "Kamu belom pernah liat aku marah yaaahhh!!! (；･`д･´)",
+                        "Bumi ini aja aku pijak \napalagi kepala kau \n(；･`д･´)"
+                    ]
+                    marah = random.choice(balesan)
+                    self.typeAndSendMessage(marah)
 
-            if "selamat" in self.message and "malam" in self.message and "wanda" in self.message:
-                if(now.hour >= 0 and now.hour < 10 ):
-                    self.typeAndSendMessage("Wanda tau sekarang itu pagi hari', jadi selamat pagi :-D")
-                elif(now.hour >= 10 and now.hour < 15 ):
-                    self.typeAndSendMessage("Wanda tau sekarang itu siang hari', jadi selamat siang :-D")
-                elif(now.hour >= 15 and now.hour < 18):
-                    self.typeAndSendMessage("Wanda tau sekarang itu sore hari', jadi selamat sore :-D")
-                elif(now.hour >= 18 and now.hour < 0):
-                    self.typeAndSendMessage("iya, selamat malam :-D")
+                #formal
+                now = datetime.datetime.now()
+                if "selamat" in self.message and "siang" in self.message and "wanda" in self.message:
+                    if(now.hour >= 0 and now.hour < 10 ):
+                        self.typeAndSendMessage("Wanda tau sekarang itu pagi hari', jadi selamat pagi :-D")
+                    elif(now.hour >= 10 and now.hour < 15 ):
+                        self.typeAndSendMessage("iya, selamat siang :-D")
+                    elif(now.hour >= 15 and now.hour < 18):
+                        self.typeAndSendMessage("Wanda tau sekarang itu pagi sore hari', jadi selamat sore :-D")
+                    elif(now.hour >= 18 and now.hour < 0):
+                        self.typeAndSendMessage("Wanda tau sekarang itu pagi malam hari', jadi selamat malam :-D")
 
-            if "selamat" in self.message and "pagi" in self.message and "wanda" in self.message:
-                if(now.hour >= 0 and now.hour < 10 ):
-                    self.typeAndSendMessage("iya, selamat pagi :-D")
-                elif(now.hour >= 10 and now.hour < 15 ):
-                    self.typeAndSendMessage("Wanda tau sekarang itu siang hari', jadi selamat siang :-D")
-                elif(now.hour >= 15 and now.hour < 18):
-                    self.typeAndSendMessage("Wanda tau sekarang itu pagi sore hari', jadi selamat sore :-D")
-                elif(now.hour >= 18 and now.hour < 0):
-                    self.typeAndSendMessage("Wanda tau sekarang itu pagi malam hari', jadi selamat malam :-D")
+                if "selamat" in self.message and "sore" in self.message and "wanda" in self.message:
+                    if(now.hour >= 0 and now.hour < 10 ):
+                        self.typeAndSendMessage("Wanda tau sekarang itu pagi hari', jadi selamat pagi :-D")
+                    elif(now.hour >= 10 and now.hour < 15 ):
+                        self.typeAndSendMessage("Wanda tau sekarang itu siang hari', jadi selamat siang :-D")
+                    elif(now.hour >= 15 and now.hour < 18):
+                        self.typeAndSendMessage("iya, selamat sore :-D")
+                    elif(now.hour >= 18 and now.hour < 0):
+                        self.typeAndSendMessage("Wanda tau sekarang itu pagi malam hari', jadi selamat malam :-D")
 
-            # Joke #
-            joke_sentence = ["ngelucu", "ngelawak", "ngejoke", "ngereceh"] #kata yg diperkirakan dimasukkan
-            if any(x in self.message for x in joke_sentence) and "wanda" in self.message: #cek kata
-                list_joke = [
-                "Sahabat dekat biasanya akan mengajak makan kepiting bareng, karena sahabat yang dekat adalah sahabat a crab :)",
-                "Rombongan bebek lagi nyebrang \nTrus ada satu bebek yang ketabrak motor \nBebek 1: Kamu gpp? \nBebek 2: Aku bebek aja kok :)",
-                "Kalo semua hal harus dipikirkan masak-masak, gimana nasib orang-orang yg ngga bisa masak :(",
-                "Bang peseng es campurnya satu, tapi dipisah ya bang. Soalnya aku khawatir nggak bisa bedain mana yang tulus dan mana yg modus :)",
-                "Pembeli: Bang, ngapain ngobrol sama martabak? \nPenjual: Kata pembelinya, martabaknya jgn dikacangin :)",
-                "Pembeli: Mbak, beli es tehnya \nPenjual: Manis gak? \nPembeli: Gak usah manis-manis, yg penting setia dan mau menerima saya apa adanya :)",
-                "Kalo ketemu begal di jalan, jgn takut. Kasi balsem aja, karena balsem bisa menghilangkan begal-begal :)",
-                "Kalo bercanda jgn suka kelewatan, soalnya kalo kelewatan ntar lo mesti muter balik :)",
-                "Jalan sama gebetan pake flat shoes, ditengah jalan ketemu mantannya dia, trus mereka ngobrol, aku dan sepatuku gak ada hak :')",
-                "Cewek itu makhluk kuat, listrik aja dipake dibibir :(",
-                "Kunci rumah gue hilang, mau masuk gak bisa. Gue cari dimana-mana gak ketemu. Akhirnya gue ambil napas panjang dan istigfar, eh pintunya kebuka. Baru inget kalo ternyata kuncinya sabar :')",
-                "Pray for Banten, ibukotanya di serang :')",
-                "Aku barusan ke kantor polisi bikin surat kehilangan, tp ditolak. Aku bilangnya aku kehilangan kamu :("
-                ]
-                joke = random.choice(list_joke) #milih random
-                self.typeAndSendMessage(joke)
+                if "selamat" in self.message and "malam" in self.message and "wanda" in self.message:
+                    if(now.hour >= 0 and now.hour < 10 ):
+                        self.typeAndSendMessage("Wanda tau sekarang itu pagi hari', jadi selamat pagi :-D")
+                    elif(now.hour >= 10 and now.hour < 15 ):
+                        self.typeAndSendMessage("Wanda tau sekarang itu siang hari', jadi selamat siang :-D")
+                    elif(now.hour >= 15 and now.hour < 18):
+                        self.typeAndSendMessage("Wanda tau sekarang itu sore hari', jadi selamat sore :-D")
+                    elif(now.hour >= 18 and now.hour < 0):
+                        self.typeAndSendMessage("iya, selamat malam :-D")
 
-            # santuy #
-            # if "salam" in self.message and "wanda" in self.message:
-            #     self.typeAndSendMessage("assalamualaikum")
-            #
-            # if "assalamualaikum" in self.message and "wanda" in self.message:
-            #     self.typeAndSendMessage("waalaikumsalam")
-            #
-            # if "gimana kabarmu?" in self.message and "wanda" in self.message:
-            #     self.typeAndSendMessage("Saya baik-baik saja kok kak :-)")
-            #
-            # if "siapa yang menciptakan kamu?" in self.message and "wanda" in self.message:
-            #     self.typeAndSendMessage("Tim IRC kakak, mereka hebat-hebat makanya sekarang wanda menjadi pintar :-)")
-            #
-            # if "aku cape" in self.message and "wanda" in self.message:
-            #     self.typeAndSendMessage("jangan lupa makan dan istrahat ya kakak :-)")
-            #
-            # if "sampurasun" in self.message and "wanda" in self.message:
-            #     self.typeAndSendMessage("Rampes")
+                if "selamat" in self.message and "pagi" in self.message and "wanda" in self.message:
+                    if(now.hour >= 0 and now.hour < 10 ):
+                        self.typeAndSendMessage("iya, selamat pagi :-D")
+                    elif(now.hour >= 10 and now.hour < 15 ):
+                        self.typeAndSendMessage("Wanda tau sekarang itu siang hari', jadi selamat siang :-D")
+                    elif(now.hour >= 15 and now.hour < 18):
+                        self.typeAndSendMessage("Wanda tau sekarang itu pagi sore hari', jadi selamat sore :-D")
+                    elif(now.hour >= 18 and now.hour < 0):
+                        self.typeAndSendMessage("Wanda tau sekarang itu pagi malam hari', jadi selamat malam :-D")
 
-            #teka-teki#
-            teka_teki = ["teka-teki", "main"]
-            if any(x in self.message for x in teka_teki) and "wanda" in self.message: #cek kata
-                list_tekateki = [
-                    "Ade ray kalau kentut bunyinya gimana? \n Brotot, brotot, brottott " , 
-                    "Sandal apa yang paling enak di dunia? \n Sandal terasi", 
-                    "Apa perbedaan aksi dengan demo? \n Kalo aksi rodanya empat kalo demo rodanya tiga",
-                    "Pintu apa yang didorong nggak bakalan pernah bisa terbuka? \n Pintu yang ada tulisannya geser",
-                    "Belut apa yg paling bahaya? \n belut-ang banyak ental bangklut",
-                    "Kebo apa yg bikin kita lelah? \n kebogor jalan kaki",
-                    "Ada 5 orang yang berjalan dibawah 1 payung kecil tapi anehnya tidak seorang pun yang kehujanan, kenapa? \n Karena tidak hujan",
-                    "Bebek apa yang jalannya muter ke kiri terus? \n Bebek dikunci stang",
-                    "Kaki seribu kalo belok kiri kakinya berapa? \n Tetep 1000, karena belok kiri jalan terus",
-                    "Tamunya sudah masuk, malah yang punya diluar, apa? \n Tukang becak",
-                    "Kentang apa yang paling dingin? \n KENTANGkuban perahu pada malam hari",
-                    "Tukang apa yang setiap dipanggil pasti bakal menengok keatas? \n Tukang gali sumur",
-                    "Tivi apa yang bisa berenang? \n TIVIkir vikir sih ikan",
-                    "Tukang apa yang walaupun untung rugi tetap tepuk tangan? \n Tukang abu gosok",
-                    "Aku ada diantara surga dan neraka. Siapakah aku? \n Dan",
-                    "Aku adalah gelar yang tidak pas apabila diberikan kepada orang yang hidup. Gelar apakah aku? \n Gelar almarhum",
-                    "Benda apa yang jika dipotong pasti nyambung lagi. Benda apakah itu? \n air",
-                    "Masuk tanda seru dan keluar tanda tanya. Apakah itu? \n Ngupil",
-                ]
-                tekateki = random.choice(list_tekateki)
-                self.typeAndSendMessage(tekateki)
+                # Joke #
+                joke_sentence = ["ngelucu", "ngelawak", "ngejoke", "ngereceh"] #kata yg diperkirakan dimasukkan
+                if any(x in self.message for x in joke_sentence) and "wanda" in self.message: #cek kata
+                    list_joke = [
+                    "Sahabat dekat biasanya akan mengajak makan kepiting bareng, karena sahabat yang dekat adalah sahabat a crab :)",
+                    "Rombongan bebek lagi nyebrang \nTrus ada satu bebek yang ketabrak motor \nBebek 1: Kamu gpp? \nBebek 2: Aku bebek aja kok :)",
+                    "Kalo semua hal harus dipikirkan masak-masak, gimana nasib orang-orang yg ngga bisa masak :(",
+                    "Bang peseng es campurnya satu, tapi dipisah ya bang. Soalnya aku khawatir nggak bisa bedain mana yang tulus dan mana yg modus :)",
+                    "Pembeli: Bang, ngapain ngobrol sama martabak? \nPenjual: Kata pembelinya, martabaknya jgn dikacangin :)",
+                    "Pembeli: Mbak, beli es tehnya \nPenjual: Manis gak? \nPembeli: Gak usah manis-manis, yg penting setia dan mau menerima saya apa adanya :)",
+                    "Kalo ketemu begal di jalan, jgn takut. Kasi balsem aja, karena balsem bisa menghilangkan begal-begal :)",
+                    "Kalo bercanda jgn suka kelewatan, soalnya kalo kelewatan ntar lo mesti muter balik :)",
+                    "Jalan sama gebetan pake flat shoes, ditengah jalan ketemu mantannya dia, trus mereka ngobrol, aku dan sepatuku gak ada hak :')",
+                    "Cewek itu makhluk kuat, listrik aja dipake dibibir :(",
+                    "Kunci rumah gue hilang, mau masuk gak bisa. Gue cari dimana-mana gak ketemu. Akhirnya gue ambil napas panjang dan istigfar, eh pintunya kebuka. Baru inget kalo ternyata kuncinya sabar :')",
+                    "Pray for Banten, ibukotanya di serang :')",
+                    "Aku barusan ke kantor polisi bikin surat kehilangan, tp ditolak. Aku bilangnya aku kehilangan kamu :("
+                    ]
+                    joke = random.choice(list_joke) #milih random
+                    self.typeAndSendMessage(joke)
 
-            # hiburan
-            if "wanda" in self.message and "hibur" in self.message or "hiburan" in self.message:
-                self.typeAndSendMessage("Boleh, mau lihat wanda ngedance atau nyanyi?")
+                # santuy #
+                # if "salam" in self.message and "wanda" in self.message:
+                #     self.typeAndSendMessage("assalamualaikum")
+                #
+                # if "assalamualaikum" in self.message and "wanda" in self.message:
+                #     self.typeAndSendMessage("waalaikumsalam")
+                #
+                # if "gimana kabarmu?" in self.message and "wanda" in self.message:
+                #     self.typeAndSendMessage("Saya baik-baik saja kok kak :-)")
+                #
+                # if "siapa yang menciptakan kamu?" in self.message and "wanda" in self.message:
+                #     self.typeAndSendMessage("Tim IRC kakak, mereka hebat-hebat makanya sekarang wanda menjadi pintar :-)")
+                #
+                # if "aku cape" in self.message and "wanda" in self.message:
+                #     self.typeAndSendMessage("jangan lupa makan dan istrahat ya kakak :-)")
+                #
+                # if "sampurasun" in self.message and "wanda" in self.message:
+                #     self.typeAndSendMessage("Rampes")
 
-            if "wanda" in self.message and "ngedance" in self.message or "dance" in self.message or "nari" in self.message:
-                self.typeAndSendMessage("tunggu sebentar ya, wanda rekaman dulu")
-                self.sendVideoWithoutPhoneNumber()
+                #teka-teki#
+                teka_teki = ["teka-teki", "main"]
+                if any(x in self.message for x in teka_teki) and "wanda" in self.message: #cek kata
+                    list_tekateki = [
+                        "Ade ray kalau kentut bunyinya gimana? \n Brotot, brotot, brottott " ,
+                        "Sandal apa yang paling enak di dunia? \n Sandal terasi",
+                        "Apa perbedaan aksi dengan demo? \n Kalo aksi rodanya empat kalo demo rodanya tiga",
+                        "Pintu apa yang didorong nggak bakalan pernah bisa terbuka? \n Pintu yang ada tulisannya geser",
+                        "Belut apa yg paling bahaya? \n belut-ang banyak ental bangklut",
+                        "Kebo apa yg bikin kita lelah? \n kebogor jalan kaki",
+                        "Ada 5 orang yang berjalan dibawah 1 payung kecil tapi anehnya tidak seorang pun yang kehujanan, kenapa? \n Karena tidak hujan",
+                        "Bebek apa yang jalannya muter ke kiri terus? \n Bebek dikunci stang",
+                        "Kaki seribu kalo belok kiri kakinya berapa? \n Tetep 1000, karena belok kiri jalan terus",
+                        "Tamunya sudah masuk, malah yang punya diluar, apa? \n Tukang becak",
+                        "Kentang apa yang paling dingin? \n KENTANGkuban perahu pada malam hari",
+                        "Tukang apa yang setiap dipanggil pasti bakal menengok keatas? \n Tukang gali sumur",
+                        "Tivi apa yang bisa berenang? \n TIVIkir vikir sih ikan",
+                        "Tukang apa yang walaupun untung rugi tetap tepuk tangan? \n Tukang abu gosok",
+                        "Aku ada diantara surga dan neraka. Siapakah aku? \n Dan",
+                        "Aku adalah gelar yang tidak pas apabila diberikan kepada orang yang hidup. Gelar apakah aku? \n Gelar almarhum",
+                        "Benda apa yang jika dipotong pasti nyambung lagi. Benda apakah itu? \n air",
+                        "Masuk tanda seru dan keluar tanda tanya. Apakah itu? \n Ngupil",
+                    ]
+                    tekateki = random.choice(list_tekateki)
+                    self.typeAndSendMessage(tekateki)
 
-            if "wanda" in self.message and "nyanyi" in self.message or "menyanyi" in self.message:
-                self.typeAndSendMessage("tunggu sebentar ya, wanda rekaman dulu")
-                self.sendVideoWithoutPhoneNumber()
+                # hiburan
+                if "wanda" in self.message and "hibur" in self.message or "hiburan" in self.message:
+                    self.typeAndSendMessage("Boleh, mau lihat wanda ngedance atau nyanyi?")
 
-            if "wanda" in self.message and "gaya" in self.message and "imutnya" in self.message:
-                self.typeAndSendMessage("bentar ya, rekaman dulu")
-                self.sendVideoWithoutPhoneNumber()
+                if "wanda" in self.message and "ngedance" in self.message or "dance" in self.message or "nari" in self.message:
+                    self.typeAndSendMessage("tunggu sebentar ya, wanda rekaman dulu")
+                    self.sendVideoWithoutPhoneNumber()
 
-            # gombalan #
-            gombalan = ["gombal", "rayu", "baper", "gombalin", "baperin", "gombalan", "rayuan"] #kata yg diperkirakan dimasukkan
-            if any(x in self.message for x in gombalan) and "wanda" in self.message: #cek kata
-                list_gombal = [
-                    "Sedang apa? Hari ini jika sehat berkenan lebih lama bersemayam di tubuh kita, maukah kau berkencan bersamaku? Hanya kita, berdua?", 
-                    "Aku mengenalmu tanpa sengaja, lalu menyayangimu secara tiba-tiba, namun sayang belum jadi siapa-siapa, mungkin nanti atau esok?",
-                    "Kamu sejenis keyboard ya? soalnya you are my type", 
-                    "Kamu kenal iwan ga? bukan iwan fals, Iwan to be your boyfriend",
-                    "Kamu isi pulpen ya? soalnya aku Tinta sama kamu", 
-                    "Kamu tau bedanya kamu sama rumah hantu ga? Kalau rumah hantu sarang hantu, kalau kamu sarangheo",
-                    "muka kamu kek pantun ya? soalnya cakep!!!", 
-                    "Dijalan ada lampu, Dikuburan ada hantu, Dikerajaan ada ratu, dihatiku ada kamu", 
-                    "Ada dua kata buat kamu, aku sayang kamu, karena aku dan kamu itukan satu",
-                    "Kamu tau buah kan? aku suka buah apel, karena apel lah arti hidupku tanpa kamu",
-                    "Tau gak, kenapa kalau belajar terus ngapal liatnya keatas? karena kalau merem langsung kebayang muka kamu",
-                    "Kalo deket denganmu aku keringetan tapi kalo jauh denganmu aku jadi keingetan",
-                    "Bambu bisa gantiin kayu, sendal bisa gantiin sepatu, tapi 1 hal yang harus kamu tau, gak akan ada yang bisa gantiin kamu",
-                    "Berusaha melupakanmu sama sulitnya dengan mengingat seseorang yang tak pernah kukenal, karena dari aku kecil aku diajarin menghapal bukan melupakan",  
-                ]
-                gombal = random.choice(list_gombal)
-                self.typeAndSendMessage(gombal)
+                if "wanda" in self.message and "nyanyi" in self.message or "menyanyi" in self.message:
+                    self.typeAndSendMessage("tunggu sebentar ya, wanda rekaman dulu")
+                    self.sendVideoWithoutPhoneNumber()
 
-                self.spancek = self.span
+                if "wanda" in self.message and "gaya" in self.message and "imutnya" in self.message:
+                    self.typeAndSendMessage("bentar ya, rekaman dulu")
+                    self.sendVideoWithoutPhoneNumber()
 
-        except Exception as e:
-            print(e)
-            print("No Message..")
+                # gombalan #
+                gombalan = ["gombal", "rayu", "baper", "gombalin", "baperin", "gombalan", "rayuan"] #kata yg diperkirakan dimasukkan
+                if any(x in self.message for x in gombalan) and "wanda" in self.message: #cek kata
+                    list_gombal = [
+                        "Sedang apa? Hari ini jika sehat berkenan lebih lama bersemayam di tubuh kita, maukah kau berkencan bersamaku? Hanya kita, berdua?",
+                        "Aku mengenalmu tanpa sengaja, lalu menyayangimu secara tiba-tiba, namun sayang belum jadi siapa-siapa, mungkin nanti atau esok?",
+                        "Kamu sejenis keyboard ya? soalnya you are my type",
+                        "Kamu kenal iwan ga? bukan iwan fals, Iwan to be your boyfriend",
+                        "Kamu isi pulpen ya? soalnya aku Tinta sama kamu",
+                        "Kamu tau bedanya kamu sama rumah hantu ga? Kalau rumah hantu sarang hantu, kalau kamu sarangheo",
+                        "muka kamu kek pantun ya? soalnya cakep!!!",
+                        "Dijalan ada lampu, Dikuburan ada hantu, Dikerajaan ada ratu, dihatiku ada kamu",
+                        "Ada dua kata buat kamu, aku sayang kamu, karena aku dan kamu itukan satu",
+                        "Kamu tau buah kan? aku suka buah apel, karena apel lah arti hidupku tanpa kamu",
+                        "Tau gak, kenapa kalau belajar terus ngapal liatnya keatas? karena kalau merem langsung kebayang muka kamu",
+                        "Kalo deket denganmu aku keringetan tapi kalo jauh denganmu aku jadi keingetan",
+                        "Bambu bisa gantiin kayu, sendal bisa gantiin sepatu, tapi 1 hal yang harus kamu tau, gak akan ada yang bisa gantiin kamu",
+                        "Berusaha melupakanmu sama sulitnya dengan mengingat seseorang yang tak pernah kukenal, karena dari aku kecil aku diajarin menghapal bukan melupakan",
+                    ]
+                    gombal = random.choice(list_gombal)
+                    self.typeAndSendMessage(gombal)
+
+                    self.spancek = self.span
+
+            except Exception as e:
+                print(e)
+                print("No Message..")
 
     def listToString(self, message):
         pesan = " "
