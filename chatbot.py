@@ -132,6 +132,11 @@ class Chatbot(object):
         self.wait = WebDriverWait(self.driver, 600)
         self.wait.until(EC.presence_of_element_located((By.XPATH, self.x_arg)))
 
+    def waitUpload(self):
+        self.x_arg = "span[data-icon='send-light"
+        self.wait = WebDriverWait(self.driver, 600)
+        self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, self.x_arg)))
+
     def typeAndSendMessage(self, message):
         self.message_target = self.driver.find_elements_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')[0]
         self.message_target.send_keys(message)
@@ -168,12 +173,14 @@ class Chatbot(object):
 
             self.span = self.driver.find_elements_by_xpath('(.//span)')[-11].text
 
+            if self.spancek != self.span:
+                subprocess.Popen(["python", "logmessage.py", self.listToString(self.message), self.getName()])
+
             self.spanLower = self.span.lower()
 
             self.message = self.splitString(self.spanLower)
 
             if "wanda" in self.message:
-                subprocess.Popen(["python", "logmessage.py", self.listToString(self.message), self.getName()])
                 list_jawaban = ["iyaaaaaa :-D", "iya, kenapa?", "iya, butuh bantuan?"]
                 jawaban = random.choice(list_jawaban)
                 self.typeAndSendMessage(jawaban)
@@ -474,6 +481,7 @@ class Chatbot(object):
                 gombal = random.choice(list_gombal)
                 self.typeAndSendMessage(gombal)
 
+                self.spancek = self.span
 
         except Exception as e:
             print(e)
@@ -667,7 +675,7 @@ class Chatbot(object):
         self.driver.find_element_by_css_selector("span[data-icon='clip']").click()
         sleep(2)
 
-        path = r"C:\Users\rolly\Downloads"
+        path = r"C:\Users\rolly\Downloads\wanda"
         nameFile = ["wanda.jpeg", "wanda1.jpeg", "wanda2.jpeg", "wanda3.jpeg"]
 
         namaFile = random.choice(nameFile)
@@ -685,7 +693,7 @@ class Chatbot(object):
         self.driver.find_element_by_css_selector("span[data-icon='clip']").click()
         sleep(2)
 
-        path = r"C:\Users\rolly\Downloads"
+        path = r"C:\Users\rolly\Downloads\wanda"
 
         if "ngedance" in self.message and "wanda" in self.message or "dance" in self.message or "nari" in self.message:
             nameFile = ["wanda.mp4", "ngedance1.mp4", "ngedance2.mp4"]
@@ -701,10 +709,10 @@ class Chatbot(object):
         self.driver.find_element_by_css_selector("input[type='file']").send_keys(result)
         sleep(1)
 
-        self.driver.find_element_by_css_selector("span[data-icon='send-light").click()
+        self.waitUpload()
         sleep(1)
 
-        self.driver.find_element_by_class_name("_1g8sv NOJWi").click()
+        self.driver.find_element_by_css_selector("span[data-icon='send-light").click()
         sleep(1)
 
     def retrievePicture(self):
