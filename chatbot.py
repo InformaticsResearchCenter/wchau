@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from oauth2client.service_account import ServiceAccountCredentials
 from dateutil.parser import parse
@@ -135,7 +135,7 @@ class Chatbot(object):
     def waitUpload(self):
         self.x_arg = "span[data-icon='send-light"
         self.wait = WebDriverWait(self.driver, 600)
-        self.wait.until(expected_conditions.presence_of_element_located((By.CSS_SELECTOR, self.x_arg)))
+        self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, self.x_arg)))
 
     def typeAndSendMessage(self, message):
         self.message_target = self.driver.find_elements_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')[0]
