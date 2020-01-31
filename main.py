@@ -4,5 +4,5 @@ bot = chatbot.Chatbot()
 
 bot.openBrowser()
 
-while True:
-    bot.cekAndSendMessage()
+# while True:
+bot.cekAndSendMessage()
