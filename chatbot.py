@@ -709,6 +709,9 @@ class Chatbot(object):
         self.driver.find_element_by_css_selector("input[type='file']").send_keys(result)
         sleep(1)
 
+        self.waitUpload()
+        sleep(1)
+
         self.driver.find_element_by_css_selector("span[data-icon='send-light").click()
         sleep(1)
 
