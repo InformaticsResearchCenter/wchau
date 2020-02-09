@@ -338,9 +338,11 @@ class Chatbot(object):
                     self.typeAndSendMessage(marah)
 
                 #formal
+
                 now = datetime.datetime.now()
+                month = ["januari","febuari","maret","april","mei","juni","juli","agustus","september","oktober","november","desember"]
                 if "wanda" in self.message and "tanggal" in self.message:
-                    self.typeAndSendMessage("Sekarang tanggal "+str(now.day)+",bulan "+str(now.month)+",tahun "+str(now.year))
+                    self.typeAndSendMessage("Sekarang tanggal "+str(now.day)+",bulan "+month[now.month-1]+",tahun "+str(now.year))
                 if "selamat" in self.message and "siang" in self.message and "wanda" in self.message:
                     if(now.hour >= 0 and now.hour < 10 ):
                         self.typeAndSendMessage("Wanda tau sekarang itu pagi hari', jadi selamat pagi :-D")
