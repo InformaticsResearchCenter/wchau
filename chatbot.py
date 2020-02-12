@@ -325,17 +325,28 @@ class Chatbot(object):
                         self.typeAndSendMessage("Foto siapa ntuh, gak kenal ih")
                     sleep(1)
 
+                if "cek" in self.message and "haki" in self.message and "wanda" in self.message:
+                self.typeAndSendMessage("tunggu dulu yaaah wanda cari dulu")
+                getIndex = self.message.index("haki")
+
+                judul = self.message[getIndex+1]
+                self.haki()
+                
                 # bully #
-                rage_sentence = ["bodoh", "jelek", "anjing", "bangsat", "bego", "tolol", "idiot", "bau"] #kata yg diperkirakan dimasukkan
+                rage_sentence = ["bodoh", "jelek", "anjing", "bangsat", "bego", "tolol", "idiot", "bau", "aneh", "pea", "dekil"] #kata yg diperkirakan dimasukkan
                 if any(x in self.message for x in rage_sentence) and "wanda" in self.message: #cek kata
                     balesan = [
                         "Ya allah Tolongin Baim Ya allah (ಥ﹏ಥ)", "Kok kamu jahat bIiinNNNnngggGGHHiitzzz sich sama aku zheyeng ('・ω・')",
                         "Tak ada manusia yang terlahir \ndi download \n(´-﹏-`；)", "Ya Maaf (ಥ﹏ಥ)", "sudah cukup rhoma (｡ŏ﹏ŏ)",
                         "rangga yang kamu lakukan ke saya itu \n JAHAT \n(;´༎ຶД༎ຶ`)", "Kamu belom pernah liat aku marah yaaahhh!!! (；･`д･´)",
-                        "Bumi ini aja aku pijak \napalagi kepala kau \n(；･`д･´)"
+                        "Bumi ini aja aku pijak \napalagi kepala kau \n(；･`д･´)", "Ah udah lah capek aku dihina terus sama kalian (;´༎ຶД༎ຶ`)",
+                        "Tau ah cape jadi chatbot mau jadi chiki aja", "Yauda kalo gitu aku gamau bantu kamu lagi (；･`д･´)",
+                        "Kok kamu jahat siih, nanti aku laporin sama papa aku pokoknya", "oke kalau gitu \n nama saya wandaa \n saya pamit",
+                        "Susah emang kalau ngomong sama kaleng krupu (´-﹏-`；)"
                     ]
                     marah = random.choice(balesan)
                     self.typeAndSendMessage(marah)
+
 
                 #formal
 
@@ -497,6 +508,40 @@ class Chatbot(object):
         pesan = " "
 
         return (pesan.join(message))
+
+    def haki(self, judul):
+        self.driver.execute_script("window.open('https://e-hakcipta.dgip.go.id/login');")
+        self.driver.switch_to_window(self.driver.window_handles[1])
+        sleep(1)
+        self.driver.find_element_by_name('username').send_keys("lppm@poltekpos.ac.id")
+        sleep(1)
+        self.driver.find_element_by_name('password').send_keys('lppm2011')
+        sleep(1)
+        self.driver.find_element_by_xpath('//*[@id="login-form"]/button').click()
+        sleep(2)
+        self.driver.find_element_by_xpath('/html/body/div/div[1]/div/div/div[2]/div/div/ul/li[1]').click()
+        sleep(1)
+        self.driver.find_element_by_xpath('/html/body/div/div[1]/div/div/div[2]/div/div/ul/li[1]/ul/li[2]/a').click()
+        self.driver.find_element_by_xpath('//*[@id="searchbar"]').send_keys(self.judul)
+        self.driver.find_element_by_xpath('//*[@id="searchbar"]').send_keys(Keys.ENTER)
+        sleep(2)
+        teks = self.driver.find_element_by_xpath("//*[@id="sample_1"]/tbody/tr[1]/td[5]")
+        if len(teks):
+            self.driver.find_element_by_xpath('//*[@id="sample_1"]/tbody/tr[1]/td[2]/a').click()
+            sleep(2)
+            status = self.driver.find_element_by_xpath('//*[@id="detail"]/div[1]/div[2]/div/div[13]/div/div/span').text
+            billing = self.driver.find_element_by_xpath('//*[@id="detail"]/div[1]/div[2]/div/div[15]/div/div/span').text
+            self.driver.close()
+            sleep(1)
+            self.driver.switch_to_window(self.driver.window_handles[0])
+            sleep(1)
+            self.typeAndSendMessage("status dari hakinya :", status , "ini billing codenyaa", billing)
+        elif:
+            self.driver.close()
+            sleep(1)
+            self.driver.switch_to_window(self.driver.window_handles[0])
+            sleep(1)
+            self.typeAndSendMessage("yaah datanya ga ketemuu :( ")
 
     def movieSchedule(self, message):
         keyWatch = ["bioskop", "film", "pilem"]
