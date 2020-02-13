@@ -16,6 +16,8 @@ import os
 import dawet
 import random
 import subprocess
+import aptimas_haki
+
 
 class Chatbot(object):
     # def __init__(self, filename):
@@ -104,7 +106,7 @@ class Chatbot(object):
                         nextData = allData[getIndex:]
 
                         for nextdata in nextData:
-                            if nextdata[0] == '':
+                            if nextdata[0] == "":
                                 getIndexNull = nextData.index(nextdata)
 
                         result = nextData[:getIndexNull]
@@ -116,10 +118,9 @@ class Chatbot(object):
         else:
             return "no_pilihan"
 
-
     def saveProfile(self):
         self.options = webdriver.ChromeOptions()
-        self.options.add_argument('--user-data-dir=./user_data')
+        self.options.add_argument("--user-data-dir=./user_data")
         self.driver = webdriver.Chrome(chrome_options=self.options)
 
     def splitString(self, string):
@@ -128,7 +129,7 @@ class Chatbot(object):
 
     def waitLogin(self):
         self.target = '"_3RWII"'
-        self.x_arg = '//div[contains(@class, ' + self.target + ')]'
+        self.x_arg = "//div[contains(@class, " + self.target + ")]"
         self.wait = WebDriverWait(self.driver, 600)
         self.wait.until(EC.presence_of_element_located((By.XPATH, self.x_arg)))
 
@@ -138,26 +139,30 @@ class Chatbot(object):
         self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, self.x_arg)))
 
     def typeAndSendMessage(self, message):
-        self.message_target = self.driver.find_elements_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')[0]
+        self.message_target = self.driver.find_elements_by_xpath(
+            '//*[@id="main"]/footer/div[1]/div[2]/div/div[2]'
+        )[0]
         self.message_target.send_keys(message)
-        self.sendbutton = self.driver.find_elements_by_xpath('//*[@id="main"]/footer/div[1]/div[3]/button')[0]
+        self.sendbutton = self.driver.find_elements_by_xpath(
+            '//*[@id="main"]/footer/div[1]/div[3]/button'
+        )[0]
         self.sendbutton.click()
 
     def deleteMessage(self):
-        self.driver.find_elements_by_class_name('_3j8Pd')[-1].click()
+        self.driver.find_elements_by_class_name("_3j8Pd")[-1].click()
         sleep(1)
 
-        value_name = self.driver.find_elements_by_class_name('_3zy-4')
+        value_name = self.driver.find_elements_by_class_name("_3zy-4")
         sleep(1)
 
-        if 'Exit group' in value_name[4].text:
-            print('group')
+        if "Exit group" in value_name[4].text:
+            print("group")
             value_name[3].click()
-            self.driver.find_elements_by_class_name('_2eK7W')[1].click()
+            self.driver.find_elements_by_class_name("_2eK7W")[1].click()
         else:
-            print('personal')
+            print("personal")
             value_name[4].click()
-            self.driver.find_elements_by_class_name('_2eK7W')[1].click()
+            self.driver.find_elements_by_class_name("_2eK7W")[1].click()
 
     def cekAndSendMessage(self):
         self.spancek = ""
@@ -169,29 +174,50 @@ class Chatbot(object):
                     self.chat.click()
                     self.chat.click()
                 except:
-                    print('skip data')
+                    print("skip data")
 
                 sleep(0.5)
 
-                self.span = self.driver.find_elements_by_xpath('(.//span)')[-11].text
+                self.span = self.driver.find_elements_by_xpath("(.//span)")[-11].text
 
                 self.spanLower = self.span.lower()
 
                 self.message = self.splitString(self.spanLower)
 
                 if self.spancek != self.span:
-                    subprocess.Popen(["python", "logmessage.py", self.listToString(self.message), self.getName()])
+                    subprocess.Popen(
+                        [
+                            "python",
+                            "logmessage.py",
+                            self.listToString(self.message),
+                            self.getName(),
+                        ]
+                    )
 
                 if "wanda" in self.message:
-                    list_jawaban = ["iyaaaaaa :-D", "iya, kenapa?", "iya, butuh bantuan?"]
+                    list_jawaban = [
+                        "iyaaaaaa :-D",
+                        "iya, kenapa?",
+                        "iya, butuh bantuan?",
+                    ]
                     jawaban = random.choice(list_jawaban)
                     self.typeAndSendMessage(jawaban)
 
-                if "wanda" in self.message and "perkenalkan" in self.message or "kenalan" in self.message:
+                if (
+                    "wanda" in self.message
+                    and "perkenalkan" in self.message
+                    or "kenalan" in self.message
+                ):
                     self.sendPictureWithoutPhoneNumber()
-                    self.typeAndSendMessage("Halo, perkenalkan Nama aku wanda, Aku seorang mahasiswi poltekpos, Salam kenal ya")
+                    self.typeAndSendMessage(
+                        "Halo, perkenalkan Nama aku wanda, Aku seorang mahasiswi poltekpos, Salam kenal ya"
+                    )
 
-                if "terima" in self.message and "kasih" in self.message and "wanda" in self.message:
+                if (
+                    "terima" in self.message
+                    and "kasih" in self.message
+                    and "wanda" in self.message
+                ):
                     self.typeAndSendMessage("sama sama :-)")
 
                 if "nuhun" in self.message and "wanda" in self.message:
@@ -203,14 +229,33 @@ class Chatbot(object):
                 if "pintar" in self.message and "wanda" in self.message:
                     self.typeAndSendMessage("Oo, iya dong, makasih atas pujiannya")
 
-                if "ngeselin" in self.message or "kesal" in self.message and "wanda" in self.message:
-                    self.typeAndSendMessage("hmm, maaf ya kalo wanda ada salah sama kamu")
+                if (
+                    "ngeselin" in self.message
+                    or "kesal" in self.message
+                    and "wanda" in self.message
+                ):
+                    self.typeAndSendMessage(
+                        "hmm, maaf ya kalo wanda ada salah sama kamu"
+                    )
 
-                if "beliin" in self.message and "rokok" in self.message and "wanda" in self.message:
-                    self.typeAndSendMessage("bukannya wanda gak mau beliin, tapi rokok itu gak baik buat kesehatan, lebih baik rokoknya diganti sama wanda aja gimana?")
+                if (
+                    "beliin" in self.message
+                    and "rokok" in self.message
+                    and "wanda" in self.message
+                ):
+                    self.typeAndSendMessage(
+                        "bukannya wanda gak mau beliin, tapi rokok itu gak baik buat kesehatan, lebih baik rokoknya diganti sama wanda aja gimana?"
+                    )
 
-                if "centil" in self.message or "nakal" in self.message and "wanda" in self.message:
-                    lst_jawaban = ["emang kenapa? ada masalah?", "trus? masalah buat kamu?"]
+                if (
+                    "centil" in self.message
+                    or "nakal" in self.message
+                    and "wanda" in self.message
+                ):
+                    lst_jawaban = [
+                        "emang kenapa? ada masalah?",
+                        "trus? masalah buat kamu?",
+                    ]
                     answer = random.choice(lst_jawaban)
                     self.typeAndSendMessage(answer)
 
@@ -218,7 +263,7 @@ class Chatbot(object):
                     self.typeAndSendMessage("ok, tunggu sebentar ya :-D")
                     getIndex = self.message.index("sidang")
                     try:
-                        jadwal = self.cekJadwalSidang(self.message[getIndex+1])
+                        jadwal = self.cekJadwalSidang(self.message[getIndex + 1])
                         jadwal.pop(0)
                         jadwal.pop(0)
 
@@ -226,39 +271,75 @@ class Chatbot(object):
                             self.typeAndSendMessage("pilihan salah")
                         else:
                             for i in jadwal:
-                                self.typeAndSendMessage("NPM: "+i[0]+", Nama: "+i[1]+", Penguji utama: "+i[2]+", Penguji pendamping: "+i[3]+", Jam: "+i[5]+", Lokasi: "+i[6])
+                                self.typeAndSendMessage(
+                                    "NPM: "
+                                    + i[0]
+                                    + ", Nama: "
+                                    + i[1]
+                                    + ", Penguji utama: "
+                                    + i[2]
+                                    + ", Penguji pendamping: "
+                                    + i[3]
+                                    + ", Jam: "
+                                    + i[5]
+                                    + ", Lokasi: "
+                                    + i[6]
+                                )
                     except:
-                        self.typeAndSendMessage("jadwal sidang "+self.message[getIndex+1]+" tidak ada")
+                        self.typeAndSendMessage(
+                            "jadwal sidang " + self.message[getIndex + 1] + " tidak ada"
+                        )
 
                 if "nilai" in self.message and "wanda" in self.message:
                     self.typeAndSendMessage("sip, ti antosan sakeudap :-)")
                     getIndex = self.message.index("nilai")
 
-                    npm = self.message[getIndex+1]
-                    pertemuan = self.message[getIndex+2]
+                    npm = self.message[getIndex + 1]
+                    pertemuan = self.message[getIndex + 2]
                     hasil = self.getNilaiMahasiswa(npm, pertemuan)
 
                     if hasil == "invalid":
-                        self.typeAndSendMessage("maaf npmnya ga wanda temuin :'-(, mungkin npmnya salah, coba dicek lagi deh :-)")
+                        self.typeAndSendMessage(
+                            "maaf npmnya ga wanda temuin :'-(, mungkin npmnya salah, coba dicek lagi deh :-)"
+                        )
                     elif hasil == "pertemuan_invalid":
                         self.typeAndSendMessage("format salah, contoh: pertemuan1")
                     else:
-                        self.typeAndSendMessage("NPM: "+npm+", Nama: "+hasil[1]+", Nilai: "+hasil[0]+", Nilai rata-rata: "+hasil[2])
-
+                        self.typeAndSendMessage(
+                            "NPM: "
+                            + npm
+                            + ", Nama: "
+                            + hasil[1]
+                            + ", Nilai: "
+                            + hasil[0]
+                            + ", Nilai rata-rata: "
+                            + hasil[2]
+                        )
 
                 if "love" in self.message and "wanda" in self.message:
                     self.typeAndSendMessage("love you too <3")
 
-                if "aku" in self.message and "cantik" in self.message and "wanda" in self.message:
+                if (
+                    "aku" in self.message
+                    and "cantik" in self.message
+                    and "wanda" in self.message
+                ):
                     ihuy = [
-                        "iya kamu cantik bangeett deehh (^o^)", "iya kamu cantik tapi masih cantikan akuu hehehe"
-                        ,"iyaa zheyengg"
+                        "iya kamu cantik bangeett deehh (^o^)",
+                        "iya kamu cantik tapi masih cantikan akuu hehehe",
+                        "iyaa zheyengg",
                     ]
                     love = random.choice(ihuy)
                     self.typeAndSendMessage(love)
-                if "kamu" in self.message and "cantik" in self.message and "wanda" in self.message:
+                if (
+                    "kamu" in self.message
+                    and "cantik" in self.message
+                    and "wanda" in self.message
+                ):
                     ayey = [
-                        "terima kasihh kakak yang maniss (/◕ヮ◕)/","awww terima kasiihh (≧▽≦)","love you kak (ㆁωㆁ*)"
+                        "terima kasihh kakak yang maniss (/◕ヮ◕)/",
+                        "awww terima kasiihh (≧▽≦)",
+                        "love you kak (ㆁωㆁ*)",
                     ]
                     loveu = random.choice(ayey)
                     self.typeAndSendMessage(loveu)
@@ -295,17 +376,21 @@ class Chatbot(object):
                     sleep(1)
                     self.renamePicture(name)
                     sleep(1)
-                    objectnames = self.listToString(self.loadYolo(self.cocoNamesLoad(), name))
+                    objectnames = self.listToString(
+                        self.loadYolo(self.cocoNamesLoad(), name)
+                    )
                     sleep(1)
                     self.deletePicture()
                     sleep(1)
                     print(objectnames)
                     if objectnames != "":
                         self.typeAndSendMessage(
-                            "Digambar yang kamu kirim wanda lihat ada " + objectnames)
+                            "Digambar yang kamu kirim wanda lihat ada " + objectnames
+                        )
                     else:
                         self.typeAndSendMessage(
-                            "ihhhh, wanda gak tau ada apa aja digambar yang kamu kirimin, maaf ya, coba kirimin gambar yang lebih jelas")
+                            "ihhhh, wanda gak tau ada apa aja digambar yang kamu kirimin, maaf ya, coba kirimin gambar yang lebih jelas"
+                        )
 
                 if "face" in self.message:
                     sleep(1)
@@ -320,88 +405,186 @@ class Chatbot(object):
                     self.deletePicture()
                     sleep(1)
                     if faceNames != "":
-                        self.typeAndSendMessage("Difoto yang kamu kirimin wanda bisa menemukan foto kak " + faceNames)
+                        self.typeAndSendMessage(
+                            "Difoto yang kamu kirimin wanda bisa menemukan foto kak "
+                            + faceNames
+                        )
                     else:
                         self.typeAndSendMessage("Foto siapa ntuh, gak kenal ih")
                     sleep(1)
 
                 # bully #
-                rage_sentence = ["bodoh", "jelek", "anjing", "bangsat", "bego", "tolol", "idiot", "bau"] #kata yg diperkirakan dimasukkan
-                if any(x in self.message for x in rage_sentence) and "wanda" in self.message: #cek kata
+                rage_sentence = [
+                    "bodoh",
+                    "jelek",
+                    "anjing",
+                    "bangsat",
+                    "bego",
+                    "tolol",
+                    "idiot",
+                    "bau",
+                ]  # kata yg diperkirakan dimasukkan
+                if (
+                    any(x in self.message for x in rage_sentence)
+                    and "wanda" in self.message
+                ):  # cek kata
                     balesan = [
-                        "Ya allah Tolongin Baim Ya allah (ಥ﹏ಥ)", "Kok kamu jahat bIiinNNNnngggGGHHiitzzz sich sama aku zheyeng ('・ω・')",
-                        "Tak ada manusia yang terlahir \ndi download \n(´-﹏-`；)", "Ya Maaf (ಥ﹏ಥ)", "sudah cukup rhoma (｡ŏ﹏ŏ)",
-                        "rangga yang kamu lakukan ke saya itu \n JAHAT \n(;´༎ຶД༎ຶ`)", "Kamu belom pernah liat aku marah yaaahhh!!! (；･`д･´)",
-                        "Bumi ini aja aku pijak \napalagi kepala kau \n(；･`д･´)"
+                        "Ya allah Tolongin Baim Ya allah (ಥ﹏ಥ)",
+                        "Kok kamu jahat bIiinNNNnngggGGHHiitzzz sich sama aku zheyeng ('・ω・')",
+                        "Tak ada manusia yang terlahir \ndi download \n(´-﹏-`；)",
+                        "Ya Maaf (ಥ﹏ಥ)",
+                        "sudah cukup rhoma (｡ŏ﹏ŏ)",
+                        "rangga yang kamu lakukan ke saya itu \n JAHAT \n(;´༎ຶД༎ຶ`)",
+                        "Kamu belom pernah liat aku marah yaaahhh!!! (；･`д･´)",
+                        "Bumi ini aja aku pijak \napalagi kepala kau \n(；･`д･´)",
                     ]
                     marah = random.choice(balesan)
                     self.typeAndSendMessage(marah)
 
-                #formal
+                # formal
 
                 now = datetime.datetime.now()
-                month = ["januari","febuari","maret","april","mei","juni","juli","agustus","september","oktober","november","desember"]
+                month = [
+                    "januari",
+                    "febuari",
+                    "maret",
+                    "april",
+                    "mei",
+                    "juni",
+                    "juli",
+                    "agustus",
+                    "september",
+                    "oktober",
+                    "november",
+                    "desember",
+                ]
                 if "wanda" in self.message and "tanggal" in self.message:
-                    self.typeAndSendMessage("Sekarang tanggal "+str(now.day)+",bulan "+month[now.month-1]+",tahun "+str(now.year))
-                if "selamat" in self.message and "siang" in self.message and "wanda" in self.message:
-                    if(now.hour >= 0 and now.hour < 10 ):
-                        self.typeAndSendMessage("Wanda tau sekarang itu pagi hari', jadi selamat pagi :-D")
-                    elif(now.hour >= 10 and now.hour < 15 ):
+                    self.typeAndSendMessage(
+                        "Sekarang tanggal "
+                        + str(now.day)
+                        + ",bulan "
+                        + month[now.month - 1]
+                        + ",tahun "
+                        + str(now.year)
+                    )
+                if (
+                    "selamat" in self.message
+                    and "siang" in self.message
+                    and "wanda" in self.message
+                ):
+                    if now.hour >= 0 and now.hour < 10:
+                        self.typeAndSendMessage(
+                            "Wanda tau sekarang itu pagi hari', jadi selamat pagi :-D"
+                        )
+                    elif now.hour >= 10 and now.hour < 15:
                         self.typeAndSendMessage("iya, selamat siang :-D")
-                    elif(now.hour >= 15 and now.hour < 18):
-                        self.typeAndSendMessage("Wanda tau sekarang itu pagi sore hari', jadi selamat sore :-D")
-                    elif(now.hour >= 18 and now.hour < 0):
-                        self.typeAndSendMessage("Wanda tau sekarang itu pagi malam hari', jadi selamat malam :-D")
+                    elif now.hour >= 15 and now.hour < 18:
+                        self.typeAndSendMessage(
+                            "Wanda tau sekarang itu pagi sore hari', jadi selamat sore :-D"
+                        )
+                    elif now.hour >= 18 and now.hour < 0:
+                        self.typeAndSendMessage(
+                            "Wanda tau sekarang itu pagi malam hari', jadi selamat malam :-D"
+                        )
 
-                if "selamat" in self.message and "sore" in self.message and "wanda" in self.message:
-                    if(now.hour >= 0 and now.hour < 10 ):
-                        self.typeAndSendMessage("Wanda tau sekarang itu pagi hari', jadi selamat pagi :-D")
-                    elif(now.hour >= 10 and now.hour < 15 ):
-                        self.typeAndSendMessage("Wanda tau sekarang itu siang hari', jadi selamat siang :-D")
-                    elif(now.hour >= 15 and now.hour < 18):
+                if (
+                    "selamat" in self.message
+                    and "sore" in self.message
+                    and "wanda" in self.message
+                ):
+                    if now.hour >= 0 and now.hour < 10:
+                        self.typeAndSendMessage(
+                            "Wanda tau sekarang itu pagi hari', jadi selamat pagi :-D"
+                        )
+                    elif now.hour >= 10 and now.hour < 15:
+                        self.typeAndSendMessage(
+                            "Wanda tau sekarang itu siang hari', jadi selamat siang :-D"
+                        )
+                    elif now.hour >= 15 and now.hour < 18:
                         self.typeAndSendMessage("iya, selamat sore :-D")
-                    elif(now.hour >= 18 and now.hour < 0):
-                        self.typeAndSendMessage("Wanda tau sekarang itu pagi malam hari', jadi selamat malam :-D")
+                    elif now.hour >= 18 and now.hour < 0:
+                        self.typeAndSendMessage(
+                            "Wanda tau sekarang itu pagi malam hari', jadi selamat malam :-D"
+                        )
 
-                if "selamat" in self.message and "malam" in self.message and "wanda" in self.message:
-                    if(now.hour >= 0 and now.hour < 10 ):
-                        self.typeAndSendMessage("Wanda tau sekarang itu pagi hari', jadi selamat pagi :-D")
-                    elif(now.hour >= 10 and now.hour < 15 ):
-                        self.typeAndSendMessage("Wanda tau sekarang itu siang hari', jadi selamat siang :-D")
-                    elif(now.hour >= 15 and now.hour < 18):
-                        self.typeAndSendMessage("Wanda tau sekarang itu sore hari', jadi selamat sore :-D")
-                    elif(now.hour >= 18 and now.hour < 0):
+                if (
+                    "selamat" in self.message
+                    and "malam" in self.message
+                    and "wanda" in self.message
+                ):
+                    if now.hour >= 0 and now.hour < 10:
+                        self.typeAndSendMessage(
+                            "Wanda tau sekarang itu pagi hari', jadi selamat pagi :-D"
+                        )
+                    elif now.hour >= 10 and now.hour < 15:
+                        self.typeAndSendMessage(
+                            "Wanda tau sekarang itu siang hari', jadi selamat siang :-D"
+                        )
+                    elif now.hour >= 15 and now.hour < 18:
+                        self.typeAndSendMessage(
+                            "Wanda tau sekarang itu sore hari', jadi selamat sore :-D"
+                        )
+                    elif now.hour >= 18 and now.hour < 0:
                         self.typeAndSendMessage("iya, selamat malam :-D")
 
-                if "selamat" in self.message and "pagi" in self.message and "wanda" in self.message:
-                    if(now.hour >= 0 and now.hour < 10 ):
+                if (
+                    "selamat" in self.message
+                    and "pagi" in self.message
+                    and "wanda" in self.message
+                ):
+                    if now.hour >= 0 and now.hour < 10:
                         self.typeAndSendMessage("iya, selamat pagi :-D")
-                    elif(now.hour >= 10 and now.hour < 15 ):
-                        self.typeAndSendMessage("Wanda tau sekarang itu siang hari', jadi selamat siang :-D")
-                    elif(now.hour >= 15 and now.hour < 18):
-                        self.typeAndSendMessage("Wanda tau sekarang itu pagi sore hari', jadi selamat sore :-D")
-                    elif(now.hour >= 18 and now.hour < 0):
-                        self.typeAndSendMessage("Wanda tau sekarang itu pagi malam hari', jadi selamat malam :-D")
+                    elif now.hour >= 10 and now.hour < 15:
+                        self.typeAndSendMessage(
+                            "Wanda tau sekarang itu siang hari', jadi selamat siang :-D"
+                        )
+                    elif now.hour >= 15 and now.hour < 18:
+                        self.typeAndSendMessage(
+                            "Wanda tau sekarang itu pagi sore hari', jadi selamat sore :-D"
+                        )
+                    elif now.hour >= 18 and now.hour < 0:
+                        self.typeAndSendMessage(
+                            "Wanda tau sekarang itu pagi malam hari', jadi selamat malam :-D"
+                        )
+
+                if "haki" in self.message and "status" in self.message:
+                    aptimas = aptimas_haki.aptimas()
+                    self.aptimas.finding_haki()
+                    for a in range(len(aptimas.judul)):
+                        self.typeAndSendMessage(
+                            "Judul haki"
+                            + aptimas.judul[a]
+                            + ", status nya "
+                            + aptimas.status[a]
+                        )
 
                 # Joke #
-                joke_sentence = ["ngelucu", "ngelawak", "ngejoke", "ngereceh"] #kata yg diperkirakan dimasukkan
-                if any(x in self.message for x in joke_sentence) and "wanda" in self.message: #cek kata
+                joke_sentence = [
+                    "ngelucu",
+                    "ngelawak",
+                    "ngejoke",
+                    "ngereceh",
+                ]  # kata yg diperkirakan dimasukkan
+                if (
+                    any(x in self.message for x in joke_sentence)
+                    and "wanda" in self.message
+                ):  # cek kata
                     list_joke = [
-                    "Sahabat dekat biasanya akan mengajak makan kepiting bareng, karena sahabat yang dekat adalah sahabat a crab :)",
-                    "Rombongan bebek lagi nyebrang \nTrus ada satu bebek yang ketabrak motor \nBebek 1: Kamu gpp? \nBebek 2: Aku bebek aja kok :)",
-                    "Kalo semua hal harus dipikirkan masak-masak, gimana nasib orang-orang yg ngga bisa masak :(",
-                    "Bang peseng es campurnya satu, tapi dipisah ya bang. Soalnya aku khawatir nggak bisa bedain mana yang tulus dan mana yg modus :)",
-                    "Pembeli: Bang, ngapain ngobrol sama martabak? \nPenjual: Kata pembelinya, martabaknya jgn dikacangin :)",
-                    "Pembeli: Mbak, beli es tehnya \nPenjual: Manis gak? \nPembeli: Gak usah manis-manis, yg penting setia dan mau menerima saya apa adanya :)",
-                    "Kalo ketemu begal di jalan, jgn takut. Kasi balsem aja, karena balsem bisa menghilangkan begal-begal :)",
-                    "Kalo bercanda jgn suka kelewatan, soalnya kalo kelewatan ntar lo mesti muter balik :)",
-                    "Jalan sama gebetan pake flat shoes, ditengah jalan ketemu mantannya dia, trus mereka ngobrol, aku dan sepatuku gak ada hak :')",
-                    "Cewek itu makhluk kuat, listrik aja dipake dibibir :(",
-                    "Kunci rumah gue hilang, mau masuk gak bisa. Gue cari dimana-mana gak ketemu. Akhirnya gue ambil napas panjang dan istigfar, eh pintunya kebuka. Baru inget kalo ternyata kuncinya sabar :')",
-                    "Pray for Banten, ibukotanya di serang :')",
-                    "Aku barusan ke kantor polisi bikin surat kehilangan, tp ditolak. Aku bilangnya aku kehilangan kamu :("
+                        "Sahabat dekat biasanya akan mengajak makan kepiting bareng, karena sahabat yang dekat adalah sahabat a crab :)",
+                        "Rombongan bebek lagi nyebrang \nTrus ada satu bebek yang ketabrak motor \nBebek 1: Kamu gpp? \nBebek 2: Aku bebek aja kok :)",
+                        "Kalo semua hal harus dipikirkan masak-masak, gimana nasib orang-orang yg ngga bisa masak :(",
+                        "Bang peseng es campurnya satu, tapi dipisah ya bang. Soalnya aku khawatir nggak bisa bedain mana yang tulus dan mana yg modus :)",
+                        "Pembeli: Bang, ngapain ngobrol sama martabak? \nPenjual: Kata pembelinya, martabaknya jgn dikacangin :)",
+                        "Pembeli: Mbak, beli es tehnya \nPenjual: Manis gak? \nPembeli: Gak usah manis-manis, yg penting setia dan mau menerima saya apa adanya :)",
+                        "Kalo ketemu begal di jalan, jgn takut. Kasi balsem aja, karena balsem bisa menghilangkan begal-begal :)",
+                        "Kalo bercanda jgn suka kelewatan, soalnya kalo kelewatan ntar lo mesti muter balik :)",
+                        "Jalan sama gebetan pake flat shoes, ditengah jalan ketemu mantannya dia, trus mereka ngobrol, aku dan sepatuku gak ada hak :')",
+                        "Cewek itu makhluk kuat, listrik aja dipake dibibir :(",
+                        "Kunci rumah gue hilang, mau masuk gak bisa. Gue cari dimana-mana gak ketemu. Akhirnya gue ambil napas panjang dan istigfar, eh pintunya kebuka. Baru inget kalo ternyata kuncinya sabar :')",
+                        "Pray for Banten, ibukotanya di serang :')",
+                        "Aku barusan ke kantor polisi bikin surat kehilangan, tp ditolak. Aku bilangnya aku kehilangan kamu :(",
                     ]
-                    joke = random.choice(list_joke) #milih random
+                    joke = random.choice(list_joke)  # milih random
                     self.typeAndSendMessage(joke)
 
                 # santuy #
@@ -423,11 +606,14 @@ class Chatbot(object):
                 # if "sampurasun" in self.message and "wanda" in self.message:
                 #     self.typeAndSendMessage("Rampes")
 
-                #teka-teki#
+                # teka-teki#
                 teka_teki = ["teka-teki", "main"]
-                if any(x in self.message for x in teka_teki) and "wanda" in self.message: #cek kata
+                if (
+                    any(x in self.message for x in teka_teki)
+                    and "wanda" in self.message
+                ):  # cek kata
                     list_tekateki = [
-                        "Ade ray kalau kentut bunyinya gimana? \n Brotot, brotot, brottott " ,
+                        "Ade ray kalau kentut bunyinya gimana? \n Brotot, brotot, brottott ",
                         "Sandal apa yang paling enak di dunia? \n Sandal terasi",
                         "Apa perbedaan aksi dengan demo? \n Kalo aksi rodanya empat kalo demo rodanya tiga",
                         "Pintu apa yang didorong nggak bakalan pernah bisa terbuka? \n Pintu yang ada tulisannya geser",
@@ -450,24 +636,53 @@ class Chatbot(object):
                     self.typeAndSendMessage(tekateki)
 
                 # hiburan
-                if "wanda" in self.message and "hibur" in self.message or "hiburan" in self.message:
-                    self.typeAndSendMessage("Boleh, mau lihat wanda ngedance atau nyanyi?")
+                if (
+                    "wanda" in self.message
+                    and "hibur" in self.message
+                    or "hiburan" in self.message
+                ):
+                    self.typeAndSendMessage(
+                        "Boleh, mau lihat wanda ngedance atau nyanyi?"
+                    )
 
-                if "wanda" in self.message and "ngedance" in self.message or "dance" in self.message or "nari" in self.message:
+                if (
+                    "wanda" in self.message
+                    and "ngedance" in self.message
+                    or "dance" in self.message
+                    or "nari" in self.message
+                ):
                     self.typeAndSendMessage("tunggu sebentar ya, wanda rekaman dulu")
                     self.sendVideoWithoutPhoneNumber()
 
-                if "wanda" in self.message and "nyanyi" in self.message or "menyanyi" in self.message:
+                if (
+                    "wanda" in self.message
+                    and "nyanyi" in self.message
+                    or "menyanyi" in self.message
+                ):
                     self.typeAndSendMessage("tunggu sebentar ya, wanda rekaman dulu")
                     self.sendVideoWithoutPhoneNumber()
 
-                if "wanda" in self.message and "gaya" in self.message and "imutnya" in self.message:
+                if (
+                    "wanda" in self.message
+                    and "gaya" in self.message
+                    and "imutnya" in self.message
+                ):
                     self.typeAndSendMessage("bentar ya, rekaman dulu")
                     self.sendVideoWithoutPhoneNumber()
 
                 # gombalan #
-                gombalan = ["gombal", "rayu", "baper", "gombalin", "baperin", "gombalan", "rayuan"] #kata yg diperkirakan dimasukkan
-                if any(x in self.message for x in gombalan) and "wanda" in self.message: #cek kata
+                gombalan = [
+                    "gombal",
+                    "rayu",
+                    "baper",
+                    "gombalin",
+                    "baperin",
+                    "gombalan",
+                    "rayuan",
+                ]  # kata yg diperkirakan dimasukkan
+                if (
+                    any(x in self.message for x in gombalan) and "wanda" in self.message
+                ):  # cek kata
                     list_gombal = [
                         "Sedang apa? Hari ini jika sehat berkenan lebih lama bersemayam di tubuh kita, maukah kau berkencan bersamaku? Hanya kita, berdua?",
                         "Aku mengenalmu tanpa sengaja, lalu menyayangimu secara tiba-tiba, namun sayang belum jadi siapa-siapa, mungkin nanti atau esok?",
@@ -496,7 +711,7 @@ class Chatbot(object):
     def listToString(self, message):
         pesan = " "
 
-        return (pesan.join(message))
+        return pesan.join(message)
 
     def movieSchedule(self, message):
         keyWatch = ["bioskop", "film", "pilem"]
@@ -516,11 +731,23 @@ class Chatbot(object):
 
         sleep(1)
 
-        self.driver.execute_script("window.open('https://jadwalnonton.com/bioskop/di-" + self.namkot + '/' + self.namlok + '-' + self.nambios + '-' + self.namkot + ".html');")
+        self.driver.execute_script(
+            "window.open('https://jadwalnonton.com/bioskop/di-"
+            + self.namkot
+            + "/"
+            + self.namlok
+            + "-"
+            + self.nambios
+            + "-"
+            + self.namkot
+            + ".html');"
+        )
 
         self.driver.switch_to_window(self.driver.window_handles[1])
         try:
-            error = self.driver.find_element_by_xpath("//div[contains(@class, 'caution')]").text
+            error = self.driver.find_element_by_xpath(
+                "//div[contains(@class, 'caution')]"
+            ).text
             if "404" in error:
                 self.driver.close()
                 sleep(1)
@@ -528,7 +755,9 @@ class Chatbot(object):
                 sleep(1)
                 self.typeAndSendMessage("Data not found")
         except:
-            jumlah = self.driver.find_elements_by_xpath("//div[contains(@class, 'col-sm-10 sched_desc')]")
+            jumlah = self.driver.find_elements_by_xpath(
+                "//div[contains(@class, 'col-sm-10 sched_desc')]"
+            )
             jadwal = ""
             for i in jumlah:
                 jadwal = i.text + jadwal
@@ -544,14 +773,16 @@ class Chatbot(object):
         usEmail = "email"
         usPass = "password"
 
-        self.driver.execute_script("window.open('https://www.tokoperhutani.com/beranda/searchFromRecap/4140100/4141100/4141102/010')")
-        sleep(.5)
+        self.driver.execute_script(
+            "window.open('https://www.tokoperhutani.com/beranda/searchFromRecap/4140100/4141100/4141102/010')"
+        )
+        sleep(0.5)
 
         self.driver.switch_to_window(self.driver.window_handles[1])
         sleep(2)
 
         self.driver.find_element_by_link_text("Login").click()
-        sleep(.5)
+        sleep(0.5)
 
         self.driver.find_element_by_id("email").send_keys(usEmail)
         self.driver.find_element_by_id("password").send_keys(usPass)
@@ -559,9 +790,22 @@ class Chatbot(object):
         self.driver.find_elements_by_class_name("le-button")[0].click()
         sleep(60)
 
-        wekser = ['193150214695', '193150214696', '193150214751', '193150215151', '193150215166', '193150215173',
-                  '193150215178', '193150215190', '193150215192', '193150215398', '193150215511', '193150215524',
-                  '193150214698', '193150215373']
+        wekser = [
+            "193150214695",
+            "193150214696",
+            "193150214751",
+            "193150215151",
+            "193150215166",
+            "193150215173",
+            "193150215178",
+            "193150215190",
+            "193150215192",
+            "193150215398",
+            "193150215511",
+            "193150215524",
+            "193150214698",
+            "193150215373",
+        ]
 
         cariData = True
 
@@ -569,7 +813,9 @@ class Chatbot(object):
 
         self.driver.find_elements_by_class_name("paginate_button")[6].click()
 
-        tableDataofOrder = self.driver.find_elements_by_xpath("//table[@id='example' and @class='display select nowrap dataTable no-footer']/tbody/tr")
+        tableDataofOrder = self.driver.find_elements_by_xpath(
+            "//table[@id='example' and @class='display select nowrap dataTable no-footer']/tbody/tr"
+        )
 
         for i in tableDataofOrder:
             getNumberofOrder = i.text[9:22]
@@ -579,7 +825,9 @@ class Chatbot(object):
         count = 10 - len(forCounting)
 
         while cariData:
-            asd = self.driver.find_elements_by_xpath("//table[@id='example' and @class='display select nowrap dataTable no-footer']/tbody/tr")
+            asd = self.driver.find_elements_by_xpath(
+                "//table[@id='example' and @class='display select nowrap dataTable no-footer']/tbody/tr"
+            )
 
             for i in asd:
                 count += 1
@@ -609,13 +857,17 @@ class Chatbot(object):
         self.destination = destination
         sleep(1)
 
-        self.coordinate = self.driver.find_element_by_id("searchboxinput").get_attribute("value")
+        self.coordinate = self.driver.find_element_by_id(
+            "searchboxinput"
+        ).get_attribute("value")
         sleep(1)
 
         self.driver.find_element_by_id("sb_cb50").click()
         sleep(1)
 
-        self.driver.find_element_by_id("searchboxinput").send_keys(self.destination + Keys.ENTER)
+        self.driver.find_element_by_id("searchboxinput").send_keys(
+            self.destination + Keys.ENTER
+        )
         sleep(4)
 
         try:
@@ -625,23 +877,33 @@ class Chatbot(object):
             print(e)
             print("There are 2 object or more destination!")
 
-            cekButton = self.driver.find_elements_by_class_name("section-result-action-text")[0].text
+            cekButton = self.driver.find_elements_by_class_name(
+                "section-result-action-text"
+            )[0].text
 
             if cekButton == "Website":
                 print("Websites")
-                self.driver.find_elements_by_class_name("section-result-action-text")[1].click()
+                self.driver.find_elements_by_class_name("section-result-action-text")[
+                    1
+                ].click()
                 sleep(2)
             else:
-                self.driver.find_elements_by_class_name("section-result-action-text")[0].click()
+                self.driver.find_elements_by_class_name("section-result-action-text")[
+                    0
+                ].click()
                 sleep(2)
 
         self.driver.find_elements_by_class_name("tactile-searchbox-input")[2].click()
         sleep(1)
 
-        self.driver.find_elements_by_class_name("tactile-searchbox-input")[2].send_keys(Keys.BACKSPACE)
+        self.driver.find_elements_by_class_name("tactile-searchbox-input")[2].send_keys(
+            Keys.BACKSPACE
+        )
         sleep(1)
 
-        self.driver.find_elements_by_class_name("tactile-searchbox-input")[2].send_keys(self.coordinate + Keys.ENTER)
+        self.driver.find_elements_by_class_name("tactile-searchbox-input")[2].send_keys(
+            self.coordinate + Keys.ENTER
+        )
         sleep(1)
 
         currentUrl = self.driver.current_url
@@ -676,7 +938,7 @@ class Chatbot(object):
         self.driver.find_element_by_css_selector("span[data-icon='send-light").click()
         sleep(1)
 
-    #change wanda photo
+    # change wanda photo
     def sendPictureWithoutPhoneNumber(self):
         self.driver.find_element_by_css_selector("span[data-icon='clip']").click()
         sleep(2)
@@ -694,19 +956,28 @@ class Chatbot(object):
         self.driver.find_element_by_css_selector("span[data-icon='send-light").click()
         sleep(1)
 
-    #add video hiburan wanda
+    # add video hiburan wanda
     def sendVideoWithoutPhoneNumber(self):
         self.driver.find_element_by_css_selector("span[data-icon='clip']").click()
         sleep(2)
 
         path = r"C:\Users\rolly\Downloads\wanda"
 
-        if "ngedance" in self.message and "wanda" in self.message or "dance" in self.message or "nari" in self.message:
+        if (
+            "ngedance" in self.message
+            and "wanda" in self.message
+            or "dance" in self.message
+            or "nari" in self.message
+        ):
             nameFile = ["wanda.mp4", "ngedance1.mp4", "ngedance2.mp4"]
             namaFile = random.choice(nameFile)
         if "nyanyi" in self.message and "wanda" in self.message:
             namaFile = "nyanyi.mp4"
-        if "imutnya" in self.message and "wanda" in self.message and "gaya" in self.message:
+        if (
+            "imutnya" in self.message
+            and "wanda" in self.message
+            and "gaya" in self.message
+        ):
             nameFile = ["imut1.mp4", "imut2.mp4"]
             namaFile = random.choice(nameFile)
 
@@ -750,7 +1021,9 @@ class Chatbot(object):
             name = self.driver.find_elements_by_class_name("_F7Vk")[1].text
             sleep(1)
 
-            self.driver.find_element_by_css_selector("span[data-icon='x-viewer']").click()
+            self.driver.find_element_by_css_selector(
+                "span[data-icon='x-viewer']"
+            ).click()
             sleep(1)
         except Exception as e:
             print(e)
@@ -769,7 +1042,10 @@ class Chatbot(object):
 
         for item in list:
             if item.endswith(".jpeg"):
-                os.rename(os.path.join(dir_name, item), os.path.join(dir_name, fileName + ".jpeg"))
+                os.rename(
+                    os.path.join(dir_name, item),
+                    os.path.join(dir_name, fileName + ".jpeg"),
+                )
 
     def cocoNamesLoad(self):
         listClass = []
@@ -800,7 +1076,9 @@ class Chatbot(object):
 
         width, height, channels = img.shape
 
-        blob = cv2.dnn.blobFromImage(img, 0.00392, (416, 416), (0, 0, 0), True, crop=False)
+        blob = cv2.dnn.blobFromImage(
+            img, 0.00392, (416, 416), (0, 0, 0), True, crop=False
+        )
 
         model.setInput(blob)
         outs = model.forward(outputLayer)
@@ -828,12 +1106,12 @@ class Chatbot(object):
                     class_ids.append(class_id)
                     confidences.append(float(confidence))
 
-        #translate
+        # translate
         translate = Translator()
         namaObjek = []
         for i in range(len(boxes)):
             label = coconames[class_ids[i]]
-            hasilTranslate = translate.translate(label, dest='id').text
+            hasilTranslate = translate.translate(label, dest="id").text
             print(hasilTranslate)
 
             if hasilTranslate in namaObjek:
@@ -851,15 +1129,9 @@ class Chatbot(object):
         angga_picture = face_recognition.load_image_file("angga.jpg")
         angga_encoding = face_recognition.face_encodings(angga_picture)[0]
 
-        known_face_encodings = [
-            rolly_encoding,
-            angga_encoding
-        ]
+        known_face_encodings = [rolly_encoding, angga_encoding]
 
-        known_face_names = [
-            "Rolly M.A.",
-            "Tri Angga D.S"
-        ]
+        known_face_names = ["Rolly M.A.", "Tri Angga D.S"]
 
         path = r"C:\Users\rolly\Downloads"
         nameFile = fileName + ".jpeg"
@@ -874,7 +1146,9 @@ class Chatbot(object):
         name = []
 
         for face_encoding in face_encodings:
-            results = face_recognition.compare_faces(known_face_encodings, face_encoding, tolerance=0.45)
+            results = face_recognition.compare_faces(
+                known_face_encodings, face_encoding, tolerance=0.45
+            )
 
             if True in results:
                 match_index = results.index(True)
