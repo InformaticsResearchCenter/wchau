@@ -15,7 +15,9 @@ class aptimas:
         user_name = "0410118609"
         password = "lppm.poltekpos.ac.id"
         driver = webdriver.Chrome()
-        driver.get("http://lppm-poltekpos.net/login")
+        driver.get("https://www.google.com")
+        driver.execute_script("window.open('http://lppm-poltekpos.net/login');")
+        driver.switch_to_window(driver.window_handles[1])
         sleep(5)
         print("Opening web")
         element = driver.find_element_by_name("identity").send_keys(user_name)
@@ -82,20 +84,13 @@ class aptimas:
                     sleep(5)
                     a = 2
                 except:
-                    driver.quit()
+                    driver.close()
                     gerbang = False
+                    driver.switch_to_window(driver.window_handles[0])
 
         print("Done")
         return aptimas
 
 
-message = ""
-dud = aptimas()
-while True:
-    message = input("command : ")
-    if "haki" in message:
-        dud.finding_haki()
-    if "show" in message:
-        for a in range(len(dud.judul)):
-            print(dud.judul[a])
-
+dod = aptimas()
+dod.finding_haki()
