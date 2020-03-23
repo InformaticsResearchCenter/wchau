@@ -12,8 +12,8 @@ class aptimas:
         self.post_date = []
 
     def finding_haki(self):
-        user_name = "0410118609"
-        password = "lppm.poltekpos.ac.id"
+        user_name = ""
+        password = ""
         driver = webdriver.Chrome()
         driver.get("https://www.google.com")
         driver.execute_script("window.open('http://lppm-poltekpos.net/login');")
